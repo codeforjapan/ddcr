@@ -2,6 +2,8 @@
 
 **Open-source AI platform for disaster information integration**
 
+English | [日本語](README.ja.md)
+
 When disasters strike, fragmented information systems create a "dark 72 hours" where no authority has a unified picture of evacuee numbers, shelter capacities, or relief supply distribution. DDCR solves this by normalizing heterogeneous disaster data into a unified Common Operating Picture (COP) — without replacing any existing system.
 
 ## Design Principles

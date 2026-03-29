@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DDCR — Conflict Resolution (Mockup)</title>
+<title>DDCR — Conflict Resolution View (Mockup)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -165,7 +165,7 @@
 
 <div class="header">
   <h1><span class="accent">DDCR</span> Conflict Resolution</h1>
-  <a href="cop-dashboard.html">&larr; COP ダッシュボードに戻る</a>
+  <a href="cop-dashboard.html">&larr; Back to COP Dashboard</a>
 </div>
 
 <div class="content">
@@ -173,63 +173,63 @@
   <div class="conflict-card">
     <div class="conflict-header">
       <div>
-        <div class="conflict-title">避難者数の矛盾 — 藤沢市D公民館</div>
+        <div class="conflict-title">Evacuee Count Conflict — Fujisawa-D Community Center</div>
         <div class="conflict-entity">ID: shelter:kanagawa-fujisawa-004</div>
       </div>
-      <div class="conflict-badge">要解決</div>
+      <div class="conflict-badge">Action Required</div>
     </div>
 
     <div class="sources">
       <div class="source-card a">
-        <div class="source-label">ソース A — 自衛隊第3連隊</div>
-        <div class="source-value">203名</div>
+        <div class="source-label">Source A — JGSDF 3rd Regiment</div>
+        <div class="source-value">203</div>
         <div class="source-meta">
-          <div><span class="key">報告方法:</span> 現地確認（目視カウント）</div>
-          <div><span class="key">報告時刻:</span> 2026-01-01 06:30 JST</div>
-          <div><span class="key">信頼度:</span> 高</div>
+          <div><span class="key">Method:</span> Field observation (visual count)</div>
+          <div><span class="key">Reported:</span> 2026-01-01 06:30 JST</div>
+          <div><span class="key">Confidence:</span> High</div>
         </div>
         <div class="confidence-bar"><div class="fill high"></div></div>
       </div>
       <div class="vs-divider">VS</div>
       <div class="source-card b">
-        <div class="source-label">ソース B — 藤沢市災害システム</div>
-        <div class="source-value">147名</div>
+        <div class="source-label">Source B — Fujisawa City Disaster System</div>
+        <div class="source-value">147</div>
         <div class="source-meta">
-          <div><span class="key">報告方法:</span> システム入力（受付登録ベース）</div>
-          <div><span class="key">報告時刻:</span> 2026-01-01 05:00 JST</div>
-          <div><span class="key">信頼度:</span> 中</div>
+          <div><span class="key">Method:</span> System input (registration-based)</div>
+          <div><span class="key">Reported:</span> 2026-01-01 05:00 JST</div>
+          <div><span class="key">Confidence:</span> Medium</div>
         </div>
         <div class="confidence-bar"><div class="fill medium"></div></div>
       </div>
     </div>
 
     <div class="analysis">
-      <h4>AI 分析（参考情報）</h4>
-      <p>差分56名の推定要因: ソースAは06:30の現地目視カウント、ソースBは05:00の受付登録数。1時間30分の時差があり、早朝に新規避難者が到着した可能性がある。また、ソースBは受付登録を完了した避難者のみをカウントしており、未登録の避難者（自力避難、深夜到着）が差分に含まれる可能性がある。</p>
-      <p style="margin-top: 6px;">推奨: ソースA（より新しい現地確認）を暫定値として採用し、藤沢市に登録数の更新を依頼。</p>
-      <div class="ai-note">この分析はAIが生成した参考情報です。最終判断は必ず担当者が行ってください。</div>
+      <h4>AI Analysis (Reference)</h4>
+      <p>Estimated cause of 56-person gap: Source A is a 06:30 on-site visual count; Source B is a 05:00 registration-based count. The 90-minute time gap suggests new evacuees arrived in the early morning. Additionally, Source B only counts registered evacuees — unregistered arrivals (self-evacuated, late-night) likely account for the difference.</p>
+      <p style="margin-top: 6px;">Recommendation: Adopt Source A (more recent field observation) as provisional value; request Fujisawa City to update registration count.</p>
+      <div class="ai-note">This analysis is AI-generated reference information. Final decisions must be made by authorized personnel.</div>
     </div>
 
     <div class="decision-form">
-      <h4>意思決定の記録（Decision Recorder）</h4>
-      <textarea placeholder="判断の理由を記録してください。例: 「自衛隊の現地確認が最新のため203名を暫定採用。藤沢市に再確認を依頼済み。」"></textarea>
-      <div class="note">この記録は変更できません。誰がいつ何の根拠で判断したかの監査証跡として保存されます。</div>
+      <h4>Decision Recorder</h4>
+      <textarea placeholder="Record your rationale. e.g. 'Adopted 203 (JGSDF field count) as provisional — more recent. Requested Fujisawa City to re-verify registration data.'"></textarea>
+      <div class="note">This record is immutable. It creates an audit trail of who decided what, when, and based on which evidence.</div>
     </div>
 
     <div class="action-buttons">
-      <button class="btn btn-green">ソースA（203名）を採用</button>
-      <button class="btn btn-yellow">ソースB（147名）を採用</button>
-      <button class="btn btn-red">上位にエスカレーション</button>
-      <button class="btn btn-outline">保留（両方表示を継続）</button>
+      <button class="btn btn-green">Adopt Source A (203)</button>
+      <button class="btn btn-yellow">Adopt Source B (147)</button>
+      <button class="btn btn-red">Escalate</button>
+      <button class="btn btn-outline">Hold (show both)</button>
     </div>
 
     <div class="timeline">
-      <h3>矛盾の検出経緯</h3>
-      <div class="timeline-item"><div class="time">05:00</div><div class="event"><span class="source">藤沢市システム</span> が147名を報告（受付登録ベース）</div></div>
-      <div class="timeline-item"><div class="time">06:30</div><div class="event"><span class="source">自衛隊第3連隊</span> が203名を報告（現地目視カウント）</div></div>
-      <div class="timeline-item"><div class="time">06:35</div><div class="event"><span class="source">DDCR Conflict Detector</span> が矛盾を自動検出。差分: 56名（38%）</div></div>
-      <div class="timeline-item"><div class="time">06:35</div><div class="event"><span class="source">DDCR AI分析</span> が推定要因と推奨を生成</div></div>
-      <div class="timeline-item"><div class="time">—</div><div class="event" style="color:var(--color-primitive-yellow-700);">担当者の判断待ち</div></div>
+      <h3>Conflict Detection Timeline</h3>
+      <div class="timeline-item"><div class="time">05:00</div><div class="event"><span class="source">Fujisawa City System</span> reported 147 (registration-based)</div></div>
+      <div class="timeline-item"><div class="time">06:30</div><div class="event"><span class="source">JGSDF 3rd Regiment</span> reported 203 (field visual count)</div></div>
+      <div class="timeline-item"><div class="time">06:35</div><div class="event"><span class="source">DDCR Conflict Detector</span> auto-detected conflict. Gap: 56 (38%)</div></div>
+      <div class="timeline-item"><div class="time">06:35</div><div class="event"><span class="source">DDCR AI Analysis</span> generated probable cause and recommendation</div></div>
+      <div class="timeline-item"><div class="time">—</div><div class="event" style="color:var(--color-primitive-yellow-700);">Awaiting decision</div></div>
     </div>
   </div>
 
@@ -237,46 +237,46 @@
   <div class="conflict-card">
     <div class="conflict-header">
       <div>
-        <div class="conflict-title">避難者数の矛盾 — 川崎市H小学校</div>
+        <div class="conflict-title">Evacuee Count Conflict — Kawasaki-H Elementary</div>
         <div class="conflict-entity">ID: shelter:kanagawa-kawasaki-008</div>
       </div>
-      <div class="conflict-badge">要確認</div>
+      <div class="conflict-badge">Review Needed</div>
     </div>
 
     <div class="sources">
       <div class="source-card a">
-        <div class="source-label">ソース A — DMAT巡回チーム</div>
-        <div class="source-value">95名</div>
+        <div class="source-label">Source A — DMAT Patrol Team</div>
+        <div class="source-value">95</div>
         <div class="source-meta">
-          <div><span class="key">報告方法:</span> 巡回時確認</div>
-          <div><span class="key">報告時刻:</span> 06:00 JST</div>
-          <div><span class="key">信頼度:</span> 中</div>
+          <div><span class="key">Method:</span> Patrol visit</div>
+          <div><span class="key">Reported:</span> 06:00 JST</div>
+          <div><span class="key">Confidence:</span> Medium</div>
         </div>
         <div class="confidence-bar"><div class="fill medium"></div></div>
       </div>
       <div class="vs-divider">VS</div>
       <div class="source-card b">
-        <div class="source-label">ソース B — 川崎市集計システム</div>
-        <div class="source-value">132名</div>
+        <div class="source-label">Source B — Kawasaki City Tally System</div>
+        <div class="source-value">132</div>
         <div class="source-meta">
-          <div><span class="key">報告方法:</span> 夜間集計（紙 → Excel）</div>
-          <div><span class="key">報告時刻:</span> 04:30 JST</div>
-          <div><span class="key">信頼度:</span> 低</div>
+          <div><span class="key">Method:</span> Overnight tally (paper → Excel)</div>
+          <div><span class="key">Reported:</span> 04:30 JST</div>
+          <div><span class="key">Confidence:</span> Low</div>
         </div>
         <div class="confidence-bar"><div class="fill low"></div></div>
       </div>
     </div>
 
     <div class="analysis">
-      <h4>AI 分析（参考情報）</h4>
-      <p>差分37名。ソースBは夜間の紙集計をExcelに転記したもので、転記ミスまたは退去者の未反映が考えられる。DMAT巡回は医療チームによる直接確認だが、全フロアを確認したかは不明。</p>
-      <div class="ai-note">AI生成の参考情報です。最終判断は担当者が行ってください。</div>
+      <h4>AI Analysis (Reference)</h4>
+      <p>Gap: 37. Source B is an overnight paper tally transcribed to Excel — transcription errors or unreflected departures are likely. DMAT patrol is a direct medical team observation, but unclear if all floors were checked.</p>
+      <div class="ai-note">AI-generated reference. Final decisions must be made by authorized personnel.</div>
     </div>
 
     <div class="action-buttons">
-      <button class="btn btn-green">ソースA（95名）を採用</button>
-      <button class="btn btn-yellow">ソースB（132名）を採用</button>
-      <button class="btn btn-outline">保留</button>
+      <button class="btn btn-green">Adopt Source A (95)</button>
+      <button class="btn btn-yellow">Adopt Source B (132)</button>
+      <button class="btn btn-outline">Hold</button>
     </div>
   </div>
 </div>
