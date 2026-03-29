@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,32 +100,22 @@
   .stat-card.conflict .value { color: var(--color-primitive-purple-900); }
 
   /* === Map === */
-  .map-area { position: relative; background: var(--color-sumi-50); overflow: hidden; }
+  .map-area { position: relative; overflow: hidden; }
+  #map { width: 100%; height: 100%; }
 
-  .markers { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-  .marker {
-    position: absolute; width: 12px; height: 12px; border-radius: 50%;
-    border: 2px solid var(--color-neutral-white); cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.15); transition: transform 0.15s;
+  /* Geolonia popup styling */
+  .maplibregl-popup-content {
+    font-family: var(--font-family-sans) !important;
+    font-size: 12px !important;
+    padding: 10px 14px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    max-width: 260px !important;
   }
-  .marker:hover { transform: scale(1.8); z-index: 10; }
-  .marker.ok { background: var(--color-primitive-green-700); }
-  .marker.warn { background: var(--color-primitive-yellow-700); }
-  .marker.critical { background: var(--color-primitive-red-700); }
-  .marker.conflict { background: var(--color-primitive-purple-700); }
-
-  .marker .tooltip {
-    display: none; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-    background: var(--color-neutral-white); border: 1px solid var(--color-sumi-200);
-    border-radius: 4px; padding: 10px 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08); white-space: nowrap; font-size: 12px;
-    z-index: 100; min-width: 240px;
-  }
-  .marker:hover .tooltip { display: block; }
-  .tooltip .name { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
-  .tooltip .detail { color: var(--color-sumi-500); margin-bottom: 2px; }
-  .tooltip .conflict-tag { color: var(--color-primitive-purple-700); font-weight: 700; margin-top: 4px; }
-  .tooltip .provenance {
+  .popup-name { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .popup-detail { color: var(--color-sumi-500); margin-bottom: 2px; }
+  .popup-conflict { color: var(--color-primitive-purple-700); font-weight: 700; margin-top: 4px; }
+  .popup-provenance {
     color: var(--color-sumi-500); font-size: 11px;
     margin-top: 6px; border-top: 1px solid var(--color-sumi-100); padding-top: 4px;
   }
@@ -209,81 +199,68 @@
 <div class="header">
   <div class="header-left">
     <h1><span class="accent">DDCR</span> Common Operating Picture</h1>
-    <span class="badge">訓練モード</span>
+    <span class="badge">Drill Mode</span>
   </div>
   <div class="meta">
-    <div class="live">稼働中</div>
-    <div>更新: 2026-01-01 06:45 JST</div>
-    <div>接続: 12 データソース</div>
+    <div class="live">LIVE</div>
+    <div>Updated: 2026-01-01 06:45 JST</div>
+    <div>Sources: 12 connected</div>
   </div>
 </div>
 
 <div class="main">
   <div class="stats-bar">
-    <div class="stat-card danger"><div class="value">34,127</div><div class="label">避難者数（推定）</div></div>
-    <div class="stat-card info"><div class="value">247</div><div class="label">開設避難所</div></div>
-    <div class="stat-card warn"><div class="value">23</div><div class="label">物資不足</div></div>
-    <div class="stat-card conflict"><div class="value">8</div><div class="label">データ矛盾</div></div>
-    <div class="stat-card ok"><div class="value">89%</div><div class="label">カバレッジ</div></div>
-    <div class="stat-card info"><div class="value">1,247</div><div class="label">要配慮者</div></div>
+    <div class="stat-card danger"><div class="value">34,127</div><div class="label">Evacuees (est.)</div></div>
+    <div class="stat-card info"><div class="value">247</div><div class="label">Shelters Open</div></div>
+    <div class="stat-card warn"><div class="value">23</div><div class="label">Supply Shortage</div></div>
+    <div class="stat-card conflict"><div class="value">8</div><div class="label">Data Conflicts</div></div>
+    <div class="stat-card ok"><div class="value">89%</div><div class="label">Coverage</div></div>
+    <div class="stat-card info"><div class="value">1,247</div><div class="label">Vulnerable</div></div>
   </div>
 
   <div class="map-area">
-    <div class="markers">
-      <div class="marker ok" style="left:25%;top:35%;"><div class="tooltip"><div class="name">横浜市立A小学校</div><div class="detail">避難者: 147名 / 収容: 300名</div><div class="detail">物資: 充足</div><div class="provenance">出典: 横浜市システム — 06:30 — 信頼度: 高</div></div></div>
-      <div class="marker warn" style="left:30%;top:42%;"><div class="tooltip"><div class="name">横浜市立B中学校</div><div class="detail">避難者: 289名 / 収容: 300名</div><div class="detail">物資: 水不足</div><div class="provenance">出典: 横浜市システム — 06:15 — 信頼度: 高</div></div></div>
-      <div class="marker critical" style="left:45%;top:50%;"><div class="tooltip"><div class="name">相模原市C体育館</div><div class="detail">避難者: 412名 / 収容: 350名（超過）</div><div class="detail">物資: 水・食料 不足</div><div class="provenance">出典: 相模原市Excel — 05:45 — 信頼度: 中</div></div></div>
-      <div class="marker conflict" style="left:35%;top:55%;"><div class="tooltip"><div class="name">藤沢市D公民館</div><div class="detail">避難者: 矛盾あり</div><div class="conflict-tag">自衛隊: 203名 vs 市システム: 147名</div><div class="provenance">自衛隊 06:30（現地確認）/ 市 05:00（システム）</div></div></div>
-      <div class="marker ok" style="left:55%;top:38%;"><div class="tooltip"><div class="name">厚木市E小学校</div><div class="detail">避難者: 56名 / 収容: 200名</div><div class="provenance">LINE Bot — 06:20 — 信頼度: 中</div></div></div>
-      <div class="marker warn" style="left:20%;top:60%;"><div class="tooltip"><div class="name">鎌倉市F体育館</div><div class="detail">避難者: 178名 / 200名</div><div class="detail">毛布不足</div><div class="provenance">FAX → AI正規化 — 06:00 — 信頼度: 中</div></div></div>
-      <div class="marker critical" style="left:50%;top:62%;"><div class="tooltip"><div class="name">小田原市G避難所</div><div class="detail">避難者: 320名 / 250名（超過）</div><div class="provenance">NPO報告 — 05:30 — 信頼度: 低</div></div></div>
-      <div class="marker conflict" style="left:40%;top:30%;"><div class="tooltip"><div class="name">川崎市H小学校</div><div class="detail">避難者: 矛盾あり</div><div class="conflict-tag">DMAT: 95名 vs 川崎市: 132名</div><div class="provenance">DMAT 06:00 / 川崎市 04:30</div></div></div>
-      <div class="marker ok" style="left:60%;top:45%;"></div>
-      <div class="marker ok" style="left:15%;top:45%;"></div>
-      <div class="marker warn" style="left:42%;top:40%;"></div>
-      <div class="marker ok" style="left:28%;top:25%;"></div>
-    </div>
+    <div id="map"></div>
   </div>
 
   <div class="sidebar">
     <div class="sidebar-section">
-      <h3>自然言語クエリ</h3>
+      <h3>Natural Language Query</h3>
       <div class="nl-query">
-        <input type="text" placeholder="例: 水が不足している避難所は？">
-        <button class="btn-primary">照会</button>
+        <input type="text" placeholder="e.g. Which shelters need water most urgently?">
+        <button class="btn-primary">Query</button>
       </div>
     </div>
 
     <div class="sidebar-section">
-      <h3>COP サマリー</h3>
+      <h3>COP Summary</h3>
       <div class="cop-summary">
-        <p><span class="tag known">把握済み</span> 247避難所中219箇所からデータ取得（89%）。推定避難者34,127名。</p>
-        <p style="margin-top:6px;"><span class="tag unknown">未確認</span> 28避難所が未報告。山北町・箱根町の通信途絶により確認不能。</p>
-        <p style="margin-top:6px;"><span class="tag conflicting">矛盾</span> 8件のデータ矛盾を検出。最重要: 藤沢市D公民館。</p>
-        <div class="ai-note">このサマリーはAIが生成した参考情報です。信頼度スコアと出典を確認の上、判断してください。</div>
+        <p><span class="tag known">Known</span> Data received from 219 of 247 shelters (89%). Estimated 34,127 evacuees.</p>
+        <p style="margin-top:6px;"><span class="tag unknown">Unknown</span> 28 shelters unreported. Yamakita/Hakone area — communication severed.</p>
+        <p style="margin-top:6px;"><span class="tag conflicting">Conflicts</span> 8 data conflicts detected. Most critical: Fujisawa-D Community Center.</p>
+        <div class="ai-note">This summary is AI-generated reference information. Verify confidence scores and sources before making decisions.</div>
       </div>
     </div>
 
     <div class="sidebar-section">
-      <h3>要対応アラート</h3>
+      <h3>Action Required</h3>
       <div class="alert-item critical">
-        <div class="alert-title">収容超過: 相模原市C体育館</div>
-        <div class="alert-detail">350名収容に412名。移送先の検討が必要。</div>
-        <div class="alert-time">06:45 — 出典: 相模原市Excel → AI正規化</div>
+        <div class="alert-title">Over capacity: Sagamihara-C Gymnasium</div>
+        <div class="alert-detail">412 evacuees in 350-capacity shelter. Transfer needed.</div>
+        <div class="alert-time">06:45 — Source: Sagamihara Excel → AI normalized</div>
       </div>
       <div class="alert-item conflict">
-        <div class="alert-title">データ矛盾: 藤沢市D公民館</div>
-        <div class="alert-detail">自衛隊(203名) vs 市(147名)。差分56名。</div>
-        <div class="alert-time">06:35 — <a href="conflict-view.html">矛盾詳細を確認</a></div>
+        <div class="alert-title">Data Conflict: Fujisawa-D Community Center</div>
+        <div class="alert-detail">JGSDF (203) vs City system (147). Gap: 56.</div>
+        <div class="alert-time">06:35 — <a href="conflict-view.html">View conflict details</a></div>
       </div>
       <div class="alert-item critical">
-        <div class="alert-title">物資枯渇: 小田原市G避難所</div>
-        <div class="alert-detail">水・食料・毛布 全不足。NPO報告（信頼度: 低）</div>
+        <div class="alert-title">Supply depleted: Odawara-G Shelter</div>
+        <div class="alert-detail">Water, food, blankets all depleted. NPO report (confidence: low)</div>
         <div class="alert-time">06:30</div>
       </div>
       <div class="alert-item info">
-        <div class="alert-title">通信途絶: 山北町エリア</div>
-        <div class="alert-detail">3避難所が2時間以上未報告。衛星回線確認を推奨。</div>
+        <div class="alert-title">Communication lost: Yamakita area</div>
+        <div class="alert-detail">3 shelters unreported for 2+ hours. Satellite link recommended.</div>
         <div class="alert-time">06:00</div>
       </div>
     </div>
@@ -291,9 +268,81 @@
 </div>
 
 <div class="footer">
-  <div>DDCR v0.1 | 神奈川県防災訓練 | 12データソース接続中</div>
-  <div>全データにW3C PROV-O準拠の来歴メタデータを付与</div>
+  <div>DDCR v0.1 | Kanagawa Prefecture Disaster Drill | 12 data sources connected</div>
+  <div>All data points carry W3C PROV-O compliant provenance metadata</div>
 </div>
 
+<script src="https://cdn.geolonia.com/v1/embed?geolonia-api-key=YOUR-API-KEY"></script>
+<script>
+const shelters = {
+  type: "FeatureCollection",
+  features: [
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.6380, 35.4437] }, properties: { name: "Yokohama-A Elementary", status: "ok", evacuees: 147, capacity: 300, supply: "Adequate", source: "Yokohama City System", time: "06:30", confidence: "High" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.6700, 35.4200] }, properties: { name: "Yokohama-B Junior High", status: "warn", evacuees: 289, capacity: 300, supply: "Water shortage", source: "Yokohama City System", time: "06:15", confidence: "High" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.3727, 35.5713] }, properties: { name: "Sagamihara-C Gymnasium", status: "critical", evacuees: 412, capacity: 350, supply: "Water & food shortage", source: "Sagamihara Excel", time: "05:45", confidence: "Medium" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.4900, 35.3388] }, properties: { name: "Fujisawa-D Community Center", status: "conflict", conflict: "JGSDF: 203 vs City: 147", source: "JGSDF 06:30 / City 05:00", confidence: "" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.3600, 35.4400] }, properties: { name: "Atsugi-E Elementary", status: "ok", evacuees: 56, capacity: 200, supply: "Adequate", source: "LINE Bot", time: "06:20", confidence: "Medium" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.5500, 35.3100] }, properties: { name: "Kamakura-F Gymnasium", status: "warn", evacuees: 178, capacity: 200, supply: "Blanket shortage", source: "FAX → AI normalized", time: "06:00", confidence: "Medium" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.1600, 35.2500] }, properties: { name: "Odawara-G Shelter", status: "critical", evacuees: 320, capacity: 250, supply: "All depleted", source: "NPO report", time: "05:30", confidence: "Low" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.7030, 35.5300] }, properties: { name: "Kawasaki-H Elementary", status: "conflict", conflict: "DMAT: 95 vs Kawasaki City: 132", source: "DMAT 06:00 / City 04:30", confidence: "" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.4800, 35.4900] }, properties: { name: "Zama-I Elementary", status: "ok", evacuees: 42, capacity: 150, source: "City system", time: "06:10", confidence: "High" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.2900, 35.3600] }, properties: { name: "Hadano-J Junior High", status: "ok", evacuees: 78, capacity: 250, source: "City system", time: "06:25", confidence: "High" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.5100, 35.3800] }, properties: { name: "Yamato-K Gymnasium", status: "warn", evacuees: 195, capacity: 220, supply: "Food shortage", source: "City Excel", time: "05:50", confidence: "Medium" }},
+    { type: "Feature", geometry: { type: "Point", coordinates: [139.6100, 35.4800] }, properties: { name: "Machida Border-L Shelter", status: "ok", evacuees: 34, capacity: 100, source: "LINE Bot", time: "06:05", confidence: "Medium" }},
+  ]
+};
+
+const statusColors = {
+  ok: "#1d8b56",
+  warn: "#b78f00",
+  critical: "#bb0000",
+  conflict: "#7b3baf"
+};
+
+function buildPopup(p) {
+  let html = '<div class="popup-name">' + p.name + '</div>';
+  if (p.status === "conflict") {
+    html += '<div class="popup-detail">Evacuees: <b>Conflicting data</b></div>';
+    html += '<div class="popup-conflict">' + p.conflict + '</div>';
+  } else {
+    html += '<div class="popup-detail">Evacuees: ' + p.evacuees + ' / Capacity: ' + p.capacity + (p.evacuees > p.capacity ? ' (Over)' : '') + '</div>';
+    if (p.supply) html += '<div class="popup-detail">Supplies: ' + p.supply + '</div>';
+  }
+  html += '<div class="popup-provenance">Source: ' + p.source + (p.time ? ' — ' + p.time : '') + (p.confidence ? ' — Confidence: ' + p.confidence : '') + '</div>';
+  return html;
+}
+
+const map = new geolonia.Map({
+  container: "map",
+  center: [139.45, 35.40],
+  zoom: 9.5,
+  style: "geolonia/gsi",
+  hash: false
+});
+
+map.on("load", () => {
+  shelters.features.forEach((f) => {
+    const color = statusColors[f.properties.status] || "#1d8b56";
+    const size = f.properties.status === "critical" || f.properties.status === "conflict" ? 14 : 10;
+
+    const el = document.createElement("div");
+    el.style.width = size + "px";
+    el.style.height = size + "px";
+    el.style.borderRadius = "50%";
+    el.style.backgroundColor = color;
+    el.style.border = "2px solid #fff";
+    el.style.boxShadow = "0 1px 3px rgba(0,0,0,0.2)";
+    el.style.cursor = "pointer";
+
+    const popup = new geolonia.Popup({ offset: 12, closeButton: false })
+      .setHTML(buildPopup(f.properties));
+
+    new geolonia.Marker({ element: el })
+      .setLngLat(f.geometry.coordinates)
+      .setPopup(popup)
+      .addTo(map);
+  });
+});
+</script>
 </body>
 </html>
