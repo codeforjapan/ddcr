@@ -22,6 +22,16 @@ When disasters strike, fragmented information systems create a "dark 72 hours" w
 ![Conflict View](mockups/conflict-view-screenshot.png)
 [Open interactive mockup](mockups/conflict-view.html)
 
+### Data Feed — Multi-Source Ingestion
+![Data Feed](mockups/data-feed-screenshot.png)
+[Open interactive mockup](mockups/data-feed.html)
+
+Shows real-time data flowing from diverse sources with different confidence levels:
+- **Government Systems** (high confidence) — automated CSV/DB ingestion
+- **Staff Reports** (medium-high) — field observations, Excel uploads
+- **NPO/Partner Orgs** (medium) — structured report forms
+- **SNS/Public Info** (low) — AI-extracted, requires verification
+
 ## Architecture
 
 ```
