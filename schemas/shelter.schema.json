@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ddcr.code4japan.org/schemas/v1/shelter",
+  "title": "DDCR Shelter Entity",
+  "description": "Standardized schema for emergency shelter data with provenance tracking and conflict preservation. Co-designed with municipal disaster management staff through multi-stakeholder workshops.",
+  "type": "object",
+  "required": ["id", "type", "name", "location", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^shelter:[a-z]+-[a-z]+-[0-9]+$",
+      "description": "Unique identifier in format shelter:{prefecture}-{municipality}-{number}",
+      "examples": ["shelter:kanagawa-yokohama-001"]
+    },
+    "type": {
+      "const": "Shelter"
+    },
+    "name": {
+      "type": "string",
+      "description": "Official name of the shelter facility"
+    },
+    "location": {
+      "$ref": "#/$defs/geoPoint",
+      "description": "Geographic coordinates of the shelter (GeoJSON Point)"
+    },
+    "capacity": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of evacuees the shelter can accommodate"
+    },
+    "evacuees": {
+      "$ref": "#/$defs/observedValue",
+      "description": "Current number of evacuees with provenance and conflict tracking"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "closed", "full", "damaged", "unknown"],
+      "description": "Current operational status of the shelter"
+    },
+    "supply_status": {
+      "type": "object",
+      "description": "Current supply levels at the shelter",
+      "properties": {
+        "water": { "$ref": "#/$defs/supplyLevel" },
+        "food": { "$ref": "#/$defs/supplyLevel" },
+        "blankets": { "$ref": "#/$defs/supplyLevel" },
+        "medicine": { "$ref": "#/$defs/supplyLevel" },
+        "sanitary": { "$ref": "#/$defs/supplyLevel" }
+      },
+      "additionalProperties": { "$ref": "#/$defs/supplyLevel" }
+    },
+    "vulnerable_populations": {
+      "type": "object",
+      "description": "Count of persons requiring special care (anonymized aggregate only)",
+      "properties": {
+        "elderly_requiring_care": { "type": "integer", "minimum": 0 },
+        "persons_with_disabilities": { "type": "integer", "minimum": 0 },
+        "infants": { "type": "integer", "minimum": 0 },
+        "non_japanese_speakers": { "type": "integer", "minimum": 0 },
+        "medical_needs": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "description": "Contact information for the shelter",
+      "properties": {
+        "phone": { "type": "string" },
+        "radio_frequency": { "type": "string" },
+        "responsible_person": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "geoPoint": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": { "const": "Point" },
+        "coordinates": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "[longitude, latitude] in decimal degrees"
+        }
+      }
+    },
+    "supplyLevel": {
+      "type": "string",
+      "enum": ["adequate", "shortage", "critical", "depleted", "unknown"],
+      "description": "Current supply level assessment"
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["reported_by", "method"],
+      "description": "W3C PROV-O inspired provenance metadata tracking who reported what, when, and how",
+      "properties": {
+        "reported_by": {
+          "type": "string",
+          "description": "Entity that produced this observation (organization, system, or person identifier)"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["field_observation", "system_input", "ai_normalized", "manual_entry", "rpa_extracted", "satellite_analysis"],
+          "description": "How this data was collected or generated"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low"],
+          "description": "Assessed confidence level of this observation"
+        },
+        "normalized_by": {
+          "type": "string",
+          "description": "If AI-normalized, the pipeline version or human operator ID"
+        },
+        "normalized_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When normalization occurred"
+        },
+        "original_format": {
+          "type": "string",
+          "description": "Source format identifier (e.g., csv_yokohama_v3, excel_sagamihara)"
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "required": ["source", "value"],
+      "description": "A conflicting value from another data source",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "The source system or entity reporting the conflicting value"
+        },
+        "value": {
+          "description": "The conflicting value (type matches parent field)"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        }
+      }
+    },
+    "observedValue": {
+      "type": "object",
+      "required": ["value", "observed_at", "provenance"],
+      "description": "A value with provenance tracking and conflict preservation. Core DDCR design: AI surfaces uncertainty, humans decide.",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this observation was made (ISO 8601)"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        },
+        "conflicts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/conflict" },
+          "description": "Other sources reporting different values for this field. DDCR preserves all conflicting values rather than silently overwriting."
+        }
+      }
+    }
+  }
+}

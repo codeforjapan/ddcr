@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ddcr.code4japan.org/schemas/v1/supply",
+  "title": "DDCR Supply Entity",
+  "description": "Standardized schema for relief supply tracking with provenance metadata.",
+  "type": "object",
+  "required": ["id", "type", "category", "quantity", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^supply:[a-z]+-[0-9]+-[0-9]+$",
+      "description": "Unique identifier in format supply:{category}-{date}-{number}",
+      "examples": ["supply:water-20260101-001"]
+    },
+    "type": {
+      "const": "Supply"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["water", "food", "blankets", "medicine", "sanitary", "clothing", "fuel", "communication_equipment", "other"],
+      "description": "Category of relief supply"
+    },
+    "quantity": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Amount of supply available"
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit of measurement (e.g., LTR, KG, PCS, BOX)",
+      "examples": ["LTR", "KG", "PCS", "BOX"]
+    },
+    "location": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": { "const": "Point" },
+        "coordinates": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "destination_shelter_id": {
+      "type": "string",
+      "description": "Target shelter ID if supply is allocated"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["available", "in_transit", "delivered", "allocated", "expired"],
+      "description": "Current status of the supply"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Expiration date if applicable"
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["reported_by", "method"],
+      "properties": {
+        "reported_by": { "type": "string" },
+        "method": {
+          "type": "string",
+          "enum": ["field_observation", "system_input", "ai_normalized", "manual_entry", "rpa_extracted"]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDCR — Conflict Resolution View (Mockup)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f172a; color: #e2e8f0; }
+
+  .header { background: #1e293b; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #a855f7; }
+  .header h1 { font-size: 18px; font-weight: 700; }
+  .header h1 span { color: #a855f7; }
+  .header .back { color: #94a3b8; text-decoration: none; font-size: 13px; }
+  .header .back:hover { color: #e2e8f0; }
+
+  .content { max-width: 900px; margin: 0 auto; padding: 24px; }
+
+  .conflict-card {
+    background: #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 24px;
+    border: 1px solid #334155;
+  }
+
+  .conflict-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .conflict-title { font-size: 20px; font-weight: 700; }
+  .conflict-entity { font-size: 14px; color: #94a3b8; margin-top: 4px; }
+  .conflict-badge {
+    background: #a855f7; color: white; padding: 4px 12px; border-radius: 4px;
+    font-size: 12px; font-weight: 600;
+  }
+
+  .sources { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 16px; align-items: stretch; }
+
+  .source-card {
+    background: #0f172a; border-radius: 8px; padding: 16px;
+    border: 2px solid;
+  }
+  .source-card.a { border-color: #22c55e; }
+  .source-card.b { border-color: #eab308; }
+
+  .source-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .source-card.a .source-label { color: #22c55e; }
+  .source-card.b .source-label { color: #eab308; }
+
+  .source-value { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+
+  .source-meta { font-size: 12px; color: #94a3b8; }
+  .source-meta div { margin-bottom: 4px; }
+  .source-meta .key { color: #64748b; }
+
+  .vs-divider {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: #a855f7;
+  }
+
+  .confidence-bar {
+    height: 6px; border-radius: 3px; background: #334155; margin-top: 8px; overflow: hidden;
+  }
+  .confidence-bar .fill { height: 100%; border-radius: 3px; }
+  .confidence-bar .fill.high { background: #22c55e; width: 90%; }
+  .confidence-bar .fill.medium { background: #eab308; width: 60%; }
+  .confidence-bar .fill.low { background: #ef4444; width: 30%; }
+
+  .analysis {
+    background: #0f172a; border-radius: 8px; padding: 16px; margin-top: 16px;
+    border-left: 3px solid #60a5fa;
+  }
+  .analysis h4 { font-size: 13px; color: #60a5fa; margin-bottom: 8px; }
+  .analysis p { font-size: 13px; color: #94a3b8; line-height: 1.6; }
+  .analysis .ai-note { font-size: 11px; color: #64748b; font-style: italic; margin-top: 8px; }
+
+  .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
+  .btn {
+    padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; border: none; transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: #22c55e; color: white; }
+  .btn-secondary { background: #eab308; color: #0f172a; }
+  .btn-escalate { background: #ef4444; color: white; }
+  .btn-ghost { background: transparent; border: 1px solid #334155; color: #94a3b8; }
+
+  .decision-form {
+    background: #0f172a; border-radius: 8px; padding: 16px; margin-top: 16px;
+    border: 1px dashed #334155;
+  }
+  .decision-form h4 { font-size: 13px; color: #94a3b8; margin-bottom: 12px; }
+  .decision-form textarea {
+    width: 100%; background: #1e293b; border: 1px solid #334155; border-radius: 6px;
+    padding: 10px; color: #e2e8f0; font-size: 13px; resize: vertical; min-height: 60px;
+  }
+  .decision-form textarea::placeholder { color: #475569; }
+  .decision-form .note { font-size: 11px; color: #64748b; margin-top: 8px; }
+
+  /* Timeline */
+  .timeline { margin-top: 24px; }
+  .timeline h3 { font-size: 14px; color: #94a3b8; margin-bottom: 16px; }
+  .timeline-item {
+    display: flex; gap: 12px; margin-bottom: 16px; position: relative;
+    padding-left: 24px;
+  }
+  .timeline-item::before {
+    content: ''; position: absolute; left: 6px; top: 8px;
+    width: 10px; height: 10px; border-radius: 50%; border: 2px solid #334155;
+    background: #1e293b;
+  }
+  .timeline-item::after {
+    content: ''; position: absolute; left: 10px; top: 20px;
+    width: 2px; height: calc(100% + 6px); background: #334155;
+  }
+  .timeline-item:last-child::after { display: none; }
+  .timeline-item .time { font-size: 12px; color: #64748b; min-width: 50px; }
+  .timeline-item .event { font-size: 13px; }
+  .timeline-item .event .source { color: #60a5fa; }
+
+  .mockup-badge {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+    background: #a855f7; color: white; padding: 4px 16px; border-radius: 4px;
+    font-size: 12px; font-weight: 700; z-index: 1000; letter-spacing: 1px;
+  }
+
+  /* Second conflict */
+  .conflict-card.minor { border-color: #475569; }
+</style>
+</head>
+<body>
+
+<div class="mockup-badge">MOCKUP — UI PROTOTYPE</div>
+
+<div class="header">
+  <h1><span>DDCR</span> Conflict Resolution</h1>
+  <a href="cop-dashboard.html" class="back">← COP ダッシュボードに戻る</a>
+</div>
+
+<div class="content">
+
+  <!-- Conflict 1: Main -->
+  <div class="conflict-card">
+    <div class="conflict-header">
+      <div>
+        <div class="conflict-title">避難者数の矛盾 — 藤沢市D公民館</div>
+        <div class="conflict-entity">ID: shelter:kanagawa-fujisawa-004</div>
+      </div>
+      <div class="conflict-badge">要解決</div>
+    </div>
+
+    <div class="sources">
+      <div class="source-card a">
+        <div class="source-label">ソース A — 自衛隊第3連隊</div>
+        <div class="source-value">203名</div>
+        <div class="source-meta">
+          <div><span class="key">報告方法:</span> 現地確認（目視カウント）</div>
+          <div><span class="key">報告時刻:</span> 2026-01-01 06:30 JST</div>
+          <div><span class="key">信頼度:</span> 高</div>
+        </div>
+        <div class="confidence-bar"><div class="fill high"></div></div>
+      </div>
+
+      <div class="vs-divider">VS</div>
+
+      <div class="source-card b">
+        <div class="source-label">ソース B — 藤沢市災害システム</div>
+        <div class="source-value">147名</div>
+        <div class="source-meta">
+          <div><span class="key">報告方法:</span> システム入力（受付登録ベース）</div>
+          <div><span class="key">報告時刻:</span> 2026-01-01 05:00 JST</div>
+          <div><span class="key">信頼度:</span> 中</div>
+        </div>
+        <div class="confidence-bar"><div class="fill medium"></div></div>
+      </div>
+    </div>
+
+    <div class="analysis">
+      <h4>AI 分析（参考情報）</h4>
+      <p>差分56名の推定要因: ソースAは06:30の現地目視カウント、ソースBは05:00の受付登録数。1時間30分の時差があり、早朝に新規避難者が到着した可能性がある。また、ソースBは受付登録を完了した避難者のみをカウントしており、未登録の避難者（自力避難、深夜到着）が差分に含まれる可能性がある。</p>
+      <p style="margin-top: 8px;">推奨: ソースA（より新しい現地確認）を暫定値として採用し、藤沢市に登録数の更新を依頼。</p>
+      <div class="ai-note">⚠ この分析はAIが生成した参考情報です。最終判断は必ず担当者が行ってください。信頼度スコアは過去の報告パターンから算出されており、保証するものではありません。</div>
+    </div>
+
+    <div class="decision-form">
+      <h4>意思決定の記録（Decision Recorder）</h4>
+      <textarea placeholder="判断の理由を記録してください。例: 「自衛隊の現地確認が最新のため203名を暫定採用。藤沢市に再確認を依頼済み。」"></textarea>
+      <div class="note">この記録は変更できません。誰がいつ何の根拠で判断したかの監査証跡として保存されます。</div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn btn-primary">ソースA（203名）を採用</button>
+      <button class="btn btn-secondary">ソースB（147名）を採用</button>
+      <button class="btn btn-escalate">上位に エスカレーション</button>
+      <button class="btn btn-ghost">保留（両方表示を継続）</button>
+    </div>
+
+    <div class="timeline">
+      <h3>矛盾の検出経緯</h3>
+      <div class="timeline-item">
+        <div class="time">05:00</div>
+        <div class="event"><span class="source">藤沢市システム</span> が147名を報告（受付登録ベース）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">06:30</div>
+        <div class="event"><span class="source">自衛隊第3連隊</span> が203名を報告（現地目視カウント）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">06:35</div>
+        <div class="event"><span class="source">DDCR Conflict Detector</span> が矛盾を自動検出。差分: 56名（38%）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">06:35</div>
+        <div class="event"><span class="source">DDCR AI分析</span> が推定要因と推奨を生成</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">—</div>
+        <div class="event" style="color: #eab308;">担当者の判断待ち</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conflict 2: Simpler -->
+  <div class="conflict-card minor">
+    <div class="conflict-header">
+      <div>
+        <div class="conflict-title">避難者数の矛盾 — 川崎市H小学校</div>
+        <div class="conflict-entity">ID: shelter:kanagawa-kawasaki-008</div>
+      </div>
+      <div class="conflict-badge">要確認</div>
+    </div>
+
+    <div class="sources">
+      <div class="source-card a">
+        <div class="source-label">ソース A — DMAT巡回チーム</div>
+        <div class="source-value">95名</div>
+        <div class="source-meta">
+          <div><span class="key">報告方法:</span> 巡回時確認</div>
+          <div><span class="key">報告時刻:</span> 06:00 JST</div>
+          <div><span class="key">信頼度:</span> 中</div>
+        </div>
+        <div class="confidence-bar"><div class="fill medium"></div></div>
+      </div>
+
+      <div class="vs-divider">VS</div>
+
+      <div class="source-card b">
+        <div class="source-label">ソース B — 川崎市集計システム</div>
+        <div class="source-value">132名</div>
+        <div class="source-meta">
+          <div><span class="key">報告方法:</span> 夜間集計（紙 → Excel）</div>
+          <div><span class="key">報告時刻:</span> 04:30 JST</div>
+          <div><span class="key">信頼度:</span> 低</div>
+        </div>
+        <div class="confidence-bar"><div class="fill low"></div></div>
+      </div>
+    </div>
+
+    <div class="analysis">
+      <h4>AI 分析（参考情報）</h4>
+      <p>差分37名。ソースBは夜間の紙集計をExcelに転記したもので、転記ミスまたは退去者の未反映が考えられる。DMAT巡回は医療チームによる直接確認だが、全フロアを確認したかは不明。</p>
+      <div class="ai-note">⚠ AI生成の参考情報です。最終判断は担当者が行ってください。</div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn btn-primary">ソースA（95名）を採用</button>
+      <button class="btn btn-secondary">ソースB（132名）を採用</button>
+      <button class="btn btn-ghost">保留</button>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

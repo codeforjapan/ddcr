@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ddcr.code4japan.org/schemas/v1/decision",
+  "title": "DDCR Decision Record",
+  "description": "Immutable audit trail for disaster response decisions. Records who decided what, when, based on which evidence. Core component of the 'AI surfaces uncertainty, humans decide' design principle.",
+  "type": "object",
+  "required": ["id", "type", "decided_by", "decided_at", "decision", "evidence_snapshot"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^decision:[0-9]+-[0-9]+$",
+      "description": "Unique identifier in format decision:{timestamp}-{sequence}"
+    },
+    "type": {
+      "const": "Decision"
+    },
+    "decided_by": {
+      "type": "object",
+      "required": ["user_id", "role"],
+      "description": "Authenticated user who made the decision",
+      "properties": {
+        "user_id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": {
+          "type": "string",
+          "description": "Role in disaster response hierarchy"
+        },
+        "organization": { "type": "string" }
+      }
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the decision was made (ISO 8601)"
+    },
+    "decision": {
+      "type": "object",
+      "required": ["action", "description"],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "allocate_supply",
+            "dispatch_team",
+            "evacuate_shelter",
+            "resolve_conflict",
+            "update_status",
+            "escalate",
+            "other"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of what was decided"
+        },
+        "affected_entities": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "IDs of shelters, supplies, or other entities affected"
+        }
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Why this decision was made — the stated reasoning"
+    },
+    "evidence_snapshot": {
+      "type": "object",
+      "description": "Snapshot of the data available at decision time",
+      "properties": {
+        "cop_version": {
+          "type": "string",
+          "description": "Version/timestamp of the COP at decision time"
+        },
+        "data_points_considered": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "entity_id": { "type": "string" },
+              "field": { "type": "string" },
+              "value": {},
+              "confidence": { "type": "string" },
+              "had_conflicts": { "type": "boolean" }
+            }
+          }
+        },
+        "ai_recommendations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recommendation": { "type": "string" },
+              "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+              "followed": { "type": "boolean" }
+            }
+          },
+          "description": "AI suggestions that were available — and whether the human followed them"
+        }
+      }
+    }
+  }
+}
