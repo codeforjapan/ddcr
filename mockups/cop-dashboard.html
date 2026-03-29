@@ -3,286 +3,296 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DDCR — Common Operating Picture Dashboard (Mockup)</title>
+<title>DDCR — Common Operating Picture (Mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f172a; color: #e2e8f0; }
+  /* === デジタル庁デザインシステム Design Tokens === */
+  /* https://github.com/digital-go-jp/design-system-example-components-html */
+  :root {
+    /* Primitive Colors */
+    --color-primitive-blue-50: #e8f1fe;
+    --color-primitive-blue-100: #d9e6ff;
+    --color-primitive-blue-200: #c5d7fb;
+    --color-primitive-blue-700: #264af4;
+    --color-primitive-blue-900: #0017c1;
+    --color-primitive-blue-1000: #00118f;
+    --color-primitive-green-50: #e6f5ec;
+    --color-primitive-green-700: #1d8b56;
+    --color-primitive-green-900: #115a36;
+    --color-primitive-yellow-50: #fbf5e0;
+    --color-primitive-yellow-300: #ffd43d;
+    --color-primitive-yellow-700: #b78f00;
+    --color-primitive-red-50: #fdeeee;
+    --color-primitive-red-700: #fa0000;
+    --color-primitive-red-900: #bb0000;
+    --color-primitive-purple-50: #f3edf7;
+    --color-primitive-purple-700: #7b3baf;
+    --color-primitive-purple-900: #5b2587;
+    --color-primitive-orange-700: #e25100;
 
-  .header { background: #1e293b; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e25c3a; }
-  .header h1 { font-size: 18px; font-weight: 700; }
-  .header h1 span { color: #e25c3a; }
-  .header .status { display: flex; gap: 16px; align-items: center; font-size: 13px; }
-  .header .status .live { color: #22c55e; display: flex; align-items: center; gap: 4px; }
-  .header .status .live::before { content: ''; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    /* Neutral Colors */
+    --color-neutral-white: #ffffff;
+    --color-neutral-black: #000000;
+    --color-neutral-solid-gray-50: #f5f5f5;
+    --color-neutral-solid-gray-100: #e8e8eb;
+    --color-neutral-solid-gray-200: #d5d5d9;
+    --color-neutral-solid-gray-300: #c0c1c5;
+    --color-neutral-solid-gray-420: #949497;
+    --color-neutral-solid-gray-536: #6e6e78;
+    --color-neutral-solid-gray-600: #626264;
+    --color-neutral-solid-gray-700: #414143;
+    --color-neutral-solid-gray-800: #1a1a1c;
 
-  .main { display: grid; grid-template-columns: 1fr 340px; grid-template-rows: auto 1fr; height: calc(100vh - 50px); }
+    /* Semantic */
+    --color-sea-600: #0031d8;
+    --color-sumi-900: #1a1a1c;
+    --color-sumi-500: #6e6e78;
+    --color-sumi-300: #c0c1c5;
+    --color-sumi-200: #d5d5d9;
+    --color-sumi-100: #e8e8eb;
+    --color-sumi-50: #f5f5f5;
 
-  /* Stats bar */
-  .stats-bar { grid-column: 1 / -1; display: flex; gap: 2px; padding: 8px 16px; background: #1e293b; }
-  .stat-card { flex: 1; background: #0f172a; border-radius: 8px; padding: 12px 16px; text-align: center; }
-  .stat-card .value { font-size: 28px; font-weight: 700; }
-  .stat-card .label { font-size: 11px; color: #94a3b8; margin-top: 2px; }
-  .stat-card.alert .value { color: #e25c3a; }
-  .stat-card.ok .value { color: #22c55e; }
-  .stat-card.warn .value { color: #eab308; }
-  .stat-card.info .value { color: #60a5fa; }
-
-  /* Map area */
-  .map-area { position: relative; background: #162032; overflow: hidden; }
-  .map-placeholder {
-    width: 100%; height: 100%;
-    background:
-      radial-gradient(circle at 30% 40%, rgba(34,197,94,0.06) 0%, transparent 50%),
-      radial-gradient(circle at 70% 60%, rgba(226,92,58,0.06) 0%, transparent 50%),
-      linear-gradient(135deg, #0f172a 0%, #162032 100%);
-    display: flex; align-items: center; justify-content: center;
+    /* Typography */
+    --font-family-sans: 'Noto Sans JP', sans-serif;
   }
 
-  /* Map markers */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-family-sans); background: var(--color-neutral-white); color: var(--color-sumi-900); font-size: 14px; line-height: 1.7; }
+
+  /* === Header === */
+  .header {
+    background: var(--color-neutral-white);
+    padding: 12px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--color-sumi-200);
+  }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header h1 { font-size: 16px; font-weight: 700; color: var(--color-sumi-900); }
+  .header h1 .accent { color: var(--color-sea-600); }
+  .badge {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 2px;
+    border: 1px solid var(--color-sumi-300); color: var(--color-sumi-500);
+  }
+  .header .meta { display: flex; gap: 16px; font-size: 12px; color: var(--color-sumi-500); }
+  .header .live { color: var(--color-primitive-green-700); display: flex; align-items: center; gap: 4px; }
+  .header .live::before { content: ''; width: 6px; height: 6px; background: var(--color-primitive-green-700); border-radius: 50%; }
+
+  /* === Main Layout === */
+  .main { display: grid; grid-template-columns: 1fr 360px; grid-template-rows: auto 1fr; height: calc(100vh - 49px); }
+
+  /* === Stats Bar === */
+  .stats-bar {
+    grid-column: 1 / -1; display: flex; gap: 8px; padding: 12px 16px;
+    background: var(--color-sumi-50); border-bottom: 1px solid var(--color-sumi-200);
+  }
+  .stat-card {
+    flex: 1; background: var(--color-neutral-white); border: 1px solid var(--color-sumi-200);
+    border-radius: 4px; padding: 10px 14px; text-align: center;
+  }
+  .stat-card .value { font-size: 22px; font-weight: 700; }
+  .stat-card .label { font-size: 11px; color: var(--color-sumi-500); margin-top: 2px; }
+  .stat-card.danger .value { color: var(--color-primitive-red-900); }
+  .stat-card.ok .value { color: var(--color-primitive-green-900); }
+  .stat-card.warn .value { color: var(--color-primitive-yellow-700); }
+  .stat-card.info .value { color: var(--color-sea-600); }
+  .stat-card.conflict .value { color: var(--color-primitive-purple-900); }
+
+  /* === Map === */
+  .map-area { position: relative; background: var(--color-sumi-50); overflow: hidden; }
+
   .markers { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
   .marker {
-    position: absolute; width: 16px; height: 16px; border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.6); cursor: pointer;
-    transition: transform 0.2s;
+    position: absolute; width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--color-neutral-white); cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15); transition: transform 0.15s;
   }
-  .marker:hover { transform: scale(1.5); z-index: 10; }
-  .marker.ok { background: #22c55e; }
-  .marker.warn { background: #eab308; }
-  .marker.critical { background: #ef4444; animation: blink 1.5s infinite; }
-  .marker.conflict { background: #a855f7; box-shadow: 0 0 8px rgba(168,85,247,0.6); }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .marker:hover { transform: scale(1.8); z-index: 10; }
+  .marker.ok { background: var(--color-primitive-green-700); }
+  .marker.warn { background: var(--color-primitive-yellow-700); }
+  .marker.critical { background: var(--color-primitive-red-700); }
+  .marker.conflict { background: var(--color-primitive-purple-700); }
 
   .marker .tooltip {
-    display: none; position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-    background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px;
-    white-space: nowrap; font-size: 12px; z-index: 100; min-width: 220px;
+    display: none; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--color-neutral-white); border: 1px solid var(--color-sumi-200);
+    border-radius: 4px; padding: 10px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); white-space: nowrap; font-size: 12px;
+    z-index: 100; min-width: 240px;
   }
   .marker:hover .tooltip { display: block; }
-  .tooltip .name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
-  .tooltip .detail { color: #94a3b8; }
-  .tooltip .conflict-tag { color: #a855f7; font-weight: 600; margin-top: 4px; }
-  .tooltip .provenance { color: #64748b; font-size: 11px; margin-top: 6px; border-top: 1px solid #334155; padding-top: 4px; }
+  .tooltip .name { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .tooltip .detail { color: var(--color-sumi-500); margin-bottom: 2px; }
+  .tooltip .conflict-tag { color: var(--color-primitive-purple-700); font-weight: 700; margin-top: 4px; }
+  .tooltip .provenance {
+    color: var(--color-sumi-500); font-size: 11px;
+    margin-top: 6px; border-top: 1px solid var(--color-sumi-100); padding-top: 4px;
+  }
 
-  /* Sidebar */
-  .sidebar { background: #1e293b; border-left: 1px solid #334155; overflow-y: auto; }
-  .sidebar-section { padding: 16px; border-bottom: 1px solid #334155; }
-  .sidebar-section h3 { font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  /* === Sidebar === */
+  .sidebar { background: var(--color-neutral-white); overflow-y: auto; }
+  .sidebar-section { padding: 16px; border-bottom: 1px solid var(--color-sumi-100); }
+  .sidebar-section h3 {
+    font-size: 12px; font-weight: 700;
+    color: var(--color-sumi-500); letter-spacing: 0.04em; margin-bottom: 10px;
+  }
 
-  /* NL Query */
-  .nl-query { display: flex; gap: 8px; }
+  /* Query input — DADS input-text pattern */
+  .nl-query { display: flex; gap: 6px; }
   .nl-query input {
-    flex: 1; background: #0f172a; border: 1px solid #334155; border-radius: 6px;
-    padding: 8px 12px; color: #e2e8f0; font-size: 13px;
+    flex: 1; border: 1px solid var(--color-sumi-300); border-radius: 4px;
+    padding: 8px 10px; font-size: 13px; font-family: var(--font-family-sans);
+    color: var(--color-sumi-900); background: var(--color-neutral-white);
   }
-  .nl-query input::placeholder { color: #64748b; }
-  .nl-query button {
-    background: #e25c3a; border: none; border-radius: 6px; padding: 8px 16px;
-    color: white; font-size: 13px; cursor: pointer;
+  .nl-query input::placeholder { color: var(--color-sumi-300); }
+  .nl-query input:focus {
+    outline: none; border-color: var(--color-primitive-yellow-300);
+    box-shadow: 0 0 0 2px var(--color-primitive-yellow-300);
   }
-
-  /* Alerts list */
-  .alert-item {
-    background: #0f172a; border-radius: 8px; padding: 12px; margin-bottom: 8px;
-    border-left: 3px solid;
+  /* Button — DADS button pattern */
+  .btn-primary {
+    display: flex; align-items: center; justify-content: center;
+    border: 4px double transparent; border-radius: 4px;
+    background: var(--color-primitive-blue-900); color: var(--color-neutral-white);
+    padding: 8px 14px; font-size: 13px; font-weight: 700;
+    font-family: var(--font-family-sans); cursor: pointer; letter-spacing: 0.02em;
   }
-  .alert-item.critical { border-color: #ef4444; }
-  .alert-item.conflict { border-color: #a855f7; }
-  .alert-item.info { border-color: #60a5fa; }
-  .alert-item .alert-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-  .alert-item .alert-detail { font-size: 12px; color: #94a3b8; }
-  .alert-item .alert-time { font-size: 11px; color: #64748b; margin-top: 4px; }
-  .alert-item .alert-provenance { font-size: 11px; color: #475569; margin-top: 4px; font-style: italic; }
+  .btn-primary:hover { background: var(--color-primitive-blue-1000); text-decoration: underline; }
 
   /* COP summary */
-  .cop-summary { font-size: 13px; line-height: 1.6; }
-  .cop-summary .known { color: #22c55e; }
-  .cop-summary .unknown { color: #eab308; }
-  .cop-summary .conflicting { color: #a855f7; }
+  .cop-summary { font-size: 13px; line-height: 1.7; color: var(--color-sumi-900); }
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 6px;
+    border-radius: 2px; margin-right: 2px;
+  }
+  .tag.known { background: var(--color-primitive-green-50); color: var(--color-primitive-green-900); }
+  .tag.unknown { background: var(--color-primitive-yellow-50); color: var(--color-primitive-yellow-700); }
+  .tag.conflicting { background: var(--color-primitive-purple-50); color: var(--color-primitive-purple-900); }
+  .ai-note {
+    font-size: 11px; color: var(--color-sumi-500); margin-top: 10px;
+    padding-top: 8px; border-top: 1px solid var(--color-sumi-100);
+  }
+
+  /* Alert items — DADS notification-banner inspired */
+  .alert-item {
+    background: var(--color-sumi-50); border-radius: 4px; padding: 12px; margin-bottom: 8px;
+    border-left: 4px solid;
+  }
+  .alert-item.critical { border-color: var(--color-primitive-red-700); }
+  .alert-item.conflict { border-color: var(--color-primitive-purple-700); }
+  .alert-item.info { border-color: var(--color-sea-600); }
+  .alert-item .alert-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .alert-item .alert-detail { font-size: 12px; color: var(--color-sumi-500); }
+  .alert-item .alert-time { font-size: 11px; color: var(--color-sumi-500); margin-top: 4px; }
+  .alert-item a { color: var(--color-sea-600); }
+  .alert-item a:hover { text-decoration: underline; }
 
   /* Footer */
   .footer {
-    grid-column: 1 / -1; background: #1e293b; padding: 6px 16px;
-    font-size: 11px; color: #64748b; display: flex; justify-content: space-between;
-    border-top: 1px solid #334155;
+    grid-column: 1 / -1; background: var(--color-sumi-50); padding: 6px 16px;
+    font-size: 11px; color: var(--color-sumi-500); display: flex; justify-content: space-between;
+    border-top: 1px solid var(--color-sumi-200);
   }
 
   .mockup-badge {
-    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
-    background: #e25c3a; color: white; padding: 4px 16px; border-radius: 4px;
-    font-size: 12px; font-weight: 700; z-index: 1000; letter-spacing: 1px;
+    position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+    background: var(--color-sumi-900); color: var(--color-neutral-white); padding: 3px 14px;
+    border-radius: 2px; font-size: 11px; font-weight: 700; z-index: 1000; letter-spacing: 0.04em;
   }
 </style>
 </head>
 <body>
 
-<div class="mockup-badge">MOCKUP — UI PROTOTYPE</div>
+<div class="mockup-badge">MOCKUP</div>
 
 <div class="header">
-  <h1><span>DDCR</span> Common Operating Picture</h1>
-  <div class="status">
-    <div class="live">LIVE — 訓練モード</div>
-    <div>更新: 2026-01-01 06:45:00 JST</div>
-    <div>データソース: 12 接続中</div>
+  <div class="header-left">
+    <h1><span class="accent">DDCR</span> Common Operating Picture</h1>
+    <span class="badge">訓練モード</span>
+  </div>
+  <div class="meta">
+    <div class="live">稼働中</div>
+    <div>更新: 2026-01-01 06:45 JST</div>
+    <div>接続: 12 データソース</div>
   </div>
 </div>
 
 <div class="main">
-  <!-- Stats Bar -->
   <div class="stats-bar">
-    <div class="stat-card alert">
-      <div class="value">34,127</div>
-      <div class="label">避難者数（推定）</div>
-    </div>
-    <div class="stat-card info">
-      <div class="value">247</div>
-      <div class="label">開設避難所</div>
-    </div>
-    <div class="stat-card warn">
-      <div class="value">23</div>
-      <div class="label">物資不足避難所</div>
-    </div>
-    <div class="stat-card alert">
-      <div class="value">8</div>
-      <div class="label">データ矛盾</div>
-    </div>
-    <div class="stat-card ok">
-      <div class="value">89%</div>
-      <div class="label">データカバレッジ</div>
-    </div>
-    <div class="stat-card info">
-      <div class="value">1,247</div>
-      <div class="label">要配慮者追跡中</div>
-    </div>
+    <div class="stat-card danger"><div class="value">34,127</div><div class="label">避難者数（推定）</div></div>
+    <div class="stat-card info"><div class="value">247</div><div class="label">開設避難所</div></div>
+    <div class="stat-card warn"><div class="value">23</div><div class="label">物資不足</div></div>
+    <div class="stat-card conflict"><div class="value">8</div><div class="label">データ矛盾</div></div>
+    <div class="stat-card ok"><div class="value">89%</div><div class="label">カバレッジ</div></div>
+    <div class="stat-card info"><div class="value">1,247</div><div class="label">要配慮者</div></div>
   </div>
 
-  <!-- Map Area -->
   <div class="map-area">
-    <div class="map-placeholder">
-      <div class="markers">
-        <!-- Kanagawa area markers -->
-        <div class="marker ok" style="left:25%; top:35%;">
-          <div class="tooltip">
-            <div class="name">横浜市立A小学校</div>
-            <div class="detail">避難者: 147名 / 収容: 300名</div>
-            <div class="detail">物資: 充足</div>
-            <div class="provenance">出典: 横浜市システム — 06:30 — 信頼度: 高</div>
-          </div>
-        </div>
-        <div class="marker warn" style="left:30%; top:42%;">
-          <div class="tooltip">
-            <div class="name">横浜市立B中学校</div>
-            <div class="detail">避難者: 289名 / 収容: 300名</div>
-            <div class="detail">物資: 水不足 ⚠️</div>
-            <div class="provenance">出典: 横浜市システム — 06:15 — 信頼度: 高</div>
-          </div>
-        </div>
-        <div class="marker critical" style="left:45%; top:50%;">
-          <div class="tooltip">
-            <div class="name">相模原市C体育館</div>
-            <div class="detail">避難者: 412名 / 収容: 350名 ⚠️ 超過</div>
-            <div class="detail">物資: 水・食料 不足</div>
-            <div class="provenance">出典: 相模原市Excel — 05:45 — 信頼度: 中</div>
-          </div>
-        </div>
-        <div class="marker conflict" style="left:35%; top:55%;">
-          <div class="tooltip">
-            <div class="name">藤沢市D公民館</div>
-            <div class="detail">避難者: <span style="color:#a855f7;">矛盾あり</span></div>
-            <div class="conflict-tag">⚡ 自衛隊: 203名 vs 市システム: 147名</div>
-            <div class="provenance">自衛隊 06:30(現地確認) / 市 05:00(システム)</div>
-          </div>
-        </div>
-        <div class="marker ok" style="left:55%; top:38%;">
-          <div class="tooltip">
-            <div class="name">厚木市E小学校</div>
-            <div class="detail">避難者: 56名 / 収容: 200名</div>
-            <div class="detail">物資: 充足</div>
-            <div class="provenance">出典: LINE Bot入力 — 06:20 — 信頼度: 中</div>
-          </div>
-        </div>
-        <div class="marker warn" style="left:20%; top:60%;">
-          <div class="tooltip">
-            <div class="name">鎌倉市F体育館</div>
-            <div class="detail">避難者: 178名 / 収容: 200名</div>
-            <div class="detail">物資: 毛布不足</div>
-            <div class="provenance">出典: 鎌倉市FAX報告 → AI正規化 — 06:00 — 信頼度: 中</div>
-          </div>
-        </div>
-        <div class="marker critical" style="left:50%; top:62%;">
-          <div class="tooltip">
-            <div class="name">小田原市G避難所</div>
-            <div class="detail">避難者: 320名 / 収容: 250名 ⚠️ 超過</div>
-            <div class="detail">物資: 全カテゴリ不足</div>
-            <div class="provenance">出典: NPOボランティア報告 — 05:30 — 信頼度: 低</div>
-          </div>
-        </div>
-        <div class="marker conflict" style="left:40%; top:30%;">
-          <div class="tooltip">
-            <div class="name">川崎市H小学校</div>
-            <div class="detail">避難者: <span style="color:#a855f7;">矛盾あり</span></div>
-            <div class="conflict-tag">⚡ DMAT: 95名 vs 川崎市: 132名</div>
-            <div class="provenance">DMAT 06:00(巡回) / 川崎市 04:30(夜間集計)</div>
-          </div>
-        </div>
-        <div class="marker ok" style="left:60%; top:45%;"></div>
-        <div class="marker ok" style="left:15%; top:45%;"></div>
-        <div class="marker warn" style="left:42%; top:40%;"></div>
-        <div class="marker ok" style="left:28%; top:25%;"></div>
-      </div>
+    <div class="markers">
+      <div class="marker ok" style="left:25%;top:35%;"><div class="tooltip"><div class="name">横浜市立A小学校</div><div class="detail">避難者: 147名 / 収容: 300名</div><div class="detail">物資: 充足</div><div class="provenance">出典: 横浜市システム — 06:30 — 信頼度: 高</div></div></div>
+      <div class="marker warn" style="left:30%;top:42%;"><div class="tooltip"><div class="name">横浜市立B中学校</div><div class="detail">避難者: 289名 / 収容: 300名</div><div class="detail">物資: 水不足</div><div class="provenance">出典: 横浜市システム — 06:15 — 信頼度: 高</div></div></div>
+      <div class="marker critical" style="left:45%;top:50%;"><div class="tooltip"><div class="name">相模原市C体育館</div><div class="detail">避難者: 412名 / 収容: 350名（超過）</div><div class="detail">物資: 水・食料 不足</div><div class="provenance">出典: 相模原市Excel — 05:45 — 信頼度: 中</div></div></div>
+      <div class="marker conflict" style="left:35%;top:55%;"><div class="tooltip"><div class="name">藤沢市D公民館</div><div class="detail">避難者: 矛盾あり</div><div class="conflict-tag">自衛隊: 203名 vs 市システム: 147名</div><div class="provenance">自衛隊 06:30（現地確認）/ 市 05:00（システム）</div></div></div>
+      <div class="marker ok" style="left:55%;top:38%;"><div class="tooltip"><div class="name">厚木市E小学校</div><div class="detail">避難者: 56名 / 収容: 200名</div><div class="provenance">LINE Bot — 06:20 — 信頼度: 中</div></div></div>
+      <div class="marker warn" style="left:20%;top:60%;"><div class="tooltip"><div class="name">鎌倉市F体育館</div><div class="detail">避難者: 178名 / 200名</div><div class="detail">毛布不足</div><div class="provenance">FAX → AI正規化 — 06:00 — 信頼度: 中</div></div></div>
+      <div class="marker critical" style="left:50%;top:62%;"><div class="tooltip"><div class="name">小田原市G避難所</div><div class="detail">避難者: 320名 / 250名（超過）</div><div class="provenance">NPO報告 — 05:30 — 信頼度: 低</div></div></div>
+      <div class="marker conflict" style="left:40%;top:30%;"><div class="tooltip"><div class="name">川崎市H小学校</div><div class="detail">避難者: 矛盾あり</div><div class="conflict-tag">DMAT: 95名 vs 川崎市: 132名</div><div class="provenance">DMAT 06:00 / 川崎市 04:30</div></div></div>
+      <div class="marker ok" style="left:60%;top:45%;"></div>
+      <div class="marker ok" style="left:15%;top:45%;"></div>
+      <div class="marker warn" style="left:42%;top:40%;"></div>
+      <div class="marker ok" style="left:28%;top:25%;"></div>
     </div>
   </div>
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <div class="sidebar-section">
       <h3>自然言語クエリ</h3>
       <div class="nl-query">
         <input type="text" placeholder="例: 水が不足している避難所は？">
-        <button>照会</button>
+        <button class="btn-primary">照会</button>
       </div>
     </div>
 
     <div class="sidebar-section">
-      <h3>COP サマリー（AI生成）</h3>
+      <h3>COP サマリー</h3>
       <div class="cop-summary">
-        <p><span class="known">把握済み:</span> 247避難所中219箇所からデータ取得済み（89%）。推定避難者34,127名。</p>
-        <p style="margin-top:8px;"><span class="unknown">未確認:</span> 28避難所が未報告。山北町・箱根町エリアの通信途絶により確認不能。</p>
-        <p style="margin-top:8px;"><span class="conflicting">矛盾:</span> 8件のデータ矛盾を検出。最も重要: 藤沢市D公民館の避難者数（自衛隊 vs 市）。</p>
-        <p style="margin-top:12px; font-size:11px; color:#64748b; font-style:italic;">※ 本サマリーはAIが生成。意思決定の根拠としてではなく、状況把握の参考として利用してください。信頼度スコアと出典を必ず確認してください。</p>
+        <p><span class="tag known">把握済み</span> 247避難所中219箇所からデータ取得（89%）。推定避難者34,127名。</p>
+        <p style="margin-top:6px;"><span class="tag unknown">未確認</span> 28避難所が未報告。山北町・箱根町の通信途絶により確認不能。</p>
+        <p style="margin-top:6px;"><span class="tag conflicting">矛盾</span> 8件のデータ矛盾を検出。最重要: 藤沢市D公民館。</p>
+        <div class="ai-note">このサマリーはAIが生成した参考情報です。信頼度スコアと出典を確認の上、判断してください。</div>
       </div>
     </div>
 
     <div class="sidebar-section">
-      <h3>⚠️ 要対応アラート</h3>
+      <h3>要対応アラート</h3>
       <div class="alert-item critical">
         <div class="alert-title">収容超過: 相模原市C体育館</div>
-        <div class="alert-detail">収容350名に対し412名。移送先の検討が必要。</div>
-        <div class="alert-time">検出: 06:45</div>
-        <div class="alert-provenance">出典: 相模原市Excel → AI正規化</div>
+        <div class="alert-detail">350名収容に412名。移送先の検討が必要。</div>
+        <div class="alert-time">06:45 — 出典: 相模原市Excel → AI正規化</div>
       </div>
       <div class="alert-item conflict">
         <div class="alert-title">データ矛盾: 藤沢市D公民館</div>
-        <div class="alert-detail">自衛隊(203名, 現地確認) vs 市システム(147名)。差分56名。</div>
-        <div class="alert-time">検出: 06:35 → <a href="conflict-view.html" style="color:#a855f7;">矛盾詳細を確認 →</a></div>
+        <div class="alert-detail">自衛隊(203名) vs 市(147名)。差分56名。</div>
+        <div class="alert-time">06:35 — <a href="conflict-view.html">矛盾詳細を確認</a></div>
       </div>
       <div class="alert-item critical">
         <div class="alert-title">物資枯渇: 小田原市G避難所</div>
-        <div class="alert-detail">水・食料・毛布すべて不足。NPO報告（信頼度: 低）— 市の確認待ち。</div>
-        <div class="alert-time">検出: 06:30</div>
+        <div class="alert-detail">水・食料・毛布 全不足。NPO報告（信頼度: 低）</div>
+        <div class="alert-time">06:30</div>
       </div>
       <div class="alert-item info">
         <div class="alert-title">通信途絶: 山北町エリア</div>
-        <div class="alert-detail">3避難所からの報告が2時間以上途絶。衛星回線による確認を推奨。</div>
-        <div class="alert-time">検出: 06:00</div>
+        <div class="alert-detail">3避難所が2時間以上未報告。衛星回線確認を推奨。</div>
+        <div class="alert-time">06:00</div>
       </div>
     </div>
   </div>
 </div>
 
 <div class="footer">
-  <div>DDCR v0.1-prototype | 神奈川県防災訓練 | データソース: 12システム接続中</div>
-  <div>Provenance: 全データポイントにW3C PROV-O準拠の来歴メタデータ付与</div>
+  <div>DDCR v0.1 | 神奈川県防災訓練 | 12データソース接続中</div>
+  <div>全データにW3C PROV-O準拠の来歴メタデータを付与</div>
 </div>
 
 </body>

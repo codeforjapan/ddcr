@@ -3,138 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DDCR — Conflict Resolution View (Mockup)</title>
+<title>DDCR — Conflict Resolution (Mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --color-primitive-blue-50: #e8f1fe;
+    --color-primitive-blue-200: #c5d7fb;
+    --color-primitive-blue-900: #0017c1;
+    --color-primitive-blue-1000: #00118f;
+    --color-primitive-green-50: #e6f5ec;
+    --color-primitive-green-700: #1d8b56;
+    --color-primitive-green-900: #115a36;
+    --color-primitive-yellow-50: #fbf5e0;
+    --color-primitive-yellow-300: #ffd43d;
+    --color-primitive-yellow-700: #b78f00;
+    --color-primitive-red-50: #fdeeee;
+    --color-primitive-red-700: #fa0000;
+    --color-primitive-red-900: #bb0000;
+    --color-primitive-purple-50: #f3edf7;
+    --color-primitive-purple-700: #7b3baf;
+    --color-primitive-purple-900: #5b2587;
+    --color-neutral-white: #ffffff;
+    --color-neutral-black: #000000;
+    --color-sea-600: #0031d8;
+    --color-sumi-900: #1a1a1c;
+    --color-sumi-500: #6e6e78;
+    --color-sumi-300: #c0c1c5;
+    --color-sumi-200: #d5d5d9;
+    --color-sumi-100: #e8e8eb;
+    --color-sumi-50: #f5f5f5;
+    --font-family-sans: 'Noto Sans JP', sans-serif;
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f172a; color: #e2e8f0; }
+  body { font-family: var(--font-family-sans); background: var(--color-neutral-white); color: var(--color-sumi-900); font-size: 14px; line-height: 1.7; }
 
-  .header { background: #1e293b; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #a855f7; }
-  .header h1 { font-size: 18px; font-weight: 700; }
-  .header h1 span { color: #a855f7; }
-  .header .back { color: #94a3b8; text-decoration: none; font-size: 13px; }
-  .header .back:hover { color: #e2e8f0; }
+  .header {
+    background: var(--color-neutral-white); padding: 12px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--color-sumi-200);
+  }
+  .header h1 { font-size: 16px; font-weight: 700; }
+  .header h1 .accent { color: var(--color-primitive-purple-700); }
+  .header a { color: var(--color-sea-600); text-decoration: none; font-size: 13px; }
+  .header a:hover { text-decoration: underline; }
 
-  .content { max-width: 900px; margin: 0 auto; padding: 24px; }
+  .content { max-width: 880px; margin: 0 auto; padding: 24px; }
 
   .conflict-card {
-    background: #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 24px;
-    border: 1px solid #334155;
+    background: var(--color-neutral-white); border: 1px solid var(--color-sumi-200);
+    border-radius: 4px; padding: 24px; margin-bottom: 24px;
   }
-
   .conflict-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-  .conflict-title { font-size: 20px; font-weight: 700; }
-  .conflict-entity { font-size: 14px; color: #94a3b8; margin-top: 4px; }
+  .conflict-title { font-size: 18px; font-weight: 700; }
+  .conflict-entity { font-size: 13px; color: var(--color-sumi-500); margin-top: 2px; }
   .conflict-badge {
-    background: #a855f7; color: white; padding: 4px 12px; border-radius: 4px;
-    font-size: 12px; font-weight: 600;
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 2px;
+    background: var(--color-primitive-purple-50); color: var(--color-primitive-purple-900);
+    border: 1px solid var(--color-primitive-purple-700);
   }
 
-  .sources { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 16px; align-items: stretch; }
+  .sources { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 12px; align-items: stretch; }
 
   .source-card {
-    background: #0f172a; border-radius: 8px; padding: 16px;
-    border: 2px solid;
+    background: var(--color-sumi-50); border: 1px solid var(--color-sumi-200);
+    border-radius: 4px; padding: 16px; border-top: 3px solid;
   }
-  .source-card.a { border-color: #22c55e; }
-  .source-card.b { border-color: #eab308; }
+  .source-card.a { border-top-color: var(--color-primitive-green-700); }
+  .source-card.b { border-top-color: var(--color-primitive-yellow-700); }
 
-  .source-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-  .source-card.a .source-label { color: #22c55e; }
-  .source-card.b .source-label { color: #eab308; }
+  .source-label { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .source-card.a .source-label { color: var(--color-primitive-green-900); }
+  .source-card.b .source-label { color: var(--color-primitive-yellow-700); }
 
-  .source-value { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+  .source-value { font-size: 32px; font-weight: 700; margin-bottom: 8px; color: var(--color-sumi-900); }
+  .source-meta { font-size: 12px; color: var(--color-sumi-500); }
+  .source-meta div { margin-bottom: 3px; }
+  .source-meta .key { color: var(--color-sumi-500); }
 
-  .source-meta { font-size: 12px; color: #94a3b8; }
-  .source-meta div { margin-bottom: 4px; }
-  .source-meta .key { color: #64748b; }
+  .confidence-bar { height: 4px; border-radius: 2px; background: var(--color-sumi-200); margin-top: 8px; overflow: hidden; }
+  .confidence-bar .fill { height: 100%; border-radius: 2px; }
+  .confidence-bar .fill.high { background: var(--color-primitive-green-700); width: 90%; }
+  .confidence-bar .fill.medium { background: var(--color-primitive-yellow-700); width: 60%; }
+  .confidence-bar .fill.low { background: var(--color-primitive-red-700); width: 30%; }
 
-  .vs-divider {
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 700; color: #a855f7;
-  }
-
-  .confidence-bar {
-    height: 6px; border-radius: 3px; background: #334155; margin-top: 8px; overflow: hidden;
-  }
-  .confidence-bar .fill { height: 100%; border-radius: 3px; }
-  .confidence-bar .fill.high { background: #22c55e; width: 90%; }
-  .confidence-bar .fill.medium { background: #eab308; width: 60%; }
-  .confidence-bar .fill.low { background: #ef4444; width: 30%; }
+  .vs-divider { display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--color-sumi-300); }
 
   .analysis {
-    background: #0f172a; border-radius: 8px; padding: 16px; margin-top: 16px;
-    border-left: 3px solid #60a5fa;
+    background: var(--color-primitive-blue-50); border: 1px solid var(--color-primitive-blue-200);
+    border-radius: 4px; padding: 16px; margin-top: 16px;
   }
-  .analysis h4 { font-size: 13px; color: #60a5fa; margin-bottom: 8px; }
-  .analysis p { font-size: 13px; color: #94a3b8; line-height: 1.6; }
-  .analysis .ai-note { font-size: 11px; color: #64748b; font-style: italic; margin-top: 8px; }
+  .analysis h4 { font-size: 13px; font-weight: 700; color: var(--color-sea-600); margin-bottom: 6px; }
+  .analysis p { font-size: 13px; color: var(--color-sumi-900); line-height: 1.7; }
+  .analysis .ai-note {
+    font-size: 11px; color: var(--color-sumi-500); margin-top: 8px;
+    padding-top: 8px; border-top: 1px solid var(--color-primitive-blue-200);
+  }
 
-  .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
+  .action-buttons { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
   .btn {
-    padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600;
-    cursor: pointer; border: none; transition: opacity 0.2s;
+    padding: 8px 16px; border-radius: 4px; font-size: 13px; font-weight: 700;
+    cursor: pointer; font-family: var(--font-family-sans); letter-spacing: 0.02em;
+    border: 4px double transparent;
   }
-  .btn:hover { opacity: 0.85; }
-  .btn-primary { background: #22c55e; color: white; }
-  .btn-secondary { background: #eab308; color: #0f172a; }
-  .btn-escalate { background: #ef4444; color: white; }
-  .btn-ghost { background: transparent; border: 1px solid #334155; color: #94a3b8; }
+  .btn:hover { text-decoration: underline; }
+  .btn-green { background: var(--color-primitive-green-700); color: var(--color-neutral-white); }
+  .btn-green:hover { background: var(--color-primitive-green-900); }
+  .btn-yellow { background: var(--color-primitive-yellow-700); color: var(--color-neutral-white); }
+  .btn-red { background: var(--color-primitive-red-900); color: var(--color-neutral-white); }
+  .btn-outline {
+    background: var(--color-neutral-white); color: var(--color-sumi-500);
+    border: 1px solid var(--color-sumi-300);
+  }
+  .btn-outline:hover { background: var(--color-sumi-50); }
 
   .decision-form {
-    background: #0f172a; border-radius: 8px; padding: 16px; margin-top: 16px;
-    border: 1px dashed #334155;
+    background: var(--color-sumi-50); border: 1px solid var(--color-sumi-200);
+    border-radius: 4px; padding: 16px; margin-top: 16px;
   }
-  .decision-form h4 { font-size: 13px; color: #94a3b8; margin-bottom: 12px; }
+  .decision-form h4 { font-size: 13px; font-weight: 700; color: var(--color-sumi-500); margin-bottom: 10px; }
   .decision-form textarea {
-    width: 100%; background: #1e293b; border: 1px solid #334155; border-radius: 6px;
-    padding: 10px; color: #e2e8f0; font-size: 13px; resize: vertical; min-height: 60px;
+    width: 100%; border: 1px solid var(--color-sumi-300); border-radius: 4px;
+    padding: 10px; font-size: 13px; font-family: var(--font-family-sans);
+    color: var(--color-sumi-900); resize: vertical; min-height: 60px;
+    background: var(--color-neutral-white);
   }
-  .decision-form textarea::placeholder { color: #475569; }
-  .decision-form .note { font-size: 11px; color: #64748b; margin-top: 8px; }
+  .decision-form textarea:focus {
+    outline: none; border-color: var(--color-primitive-yellow-300);
+    box-shadow: 0 0 0 2px var(--color-primitive-yellow-300);
+  }
+  .decision-form textarea::placeholder { color: var(--color-sumi-300); }
+  .decision-form .note { font-size: 11px; color: var(--color-sumi-500); margin-top: 6px; }
 
-  /* Timeline */
-  .timeline { margin-top: 24px; }
-  .timeline h3 { font-size: 14px; color: #94a3b8; margin-bottom: 16px; }
-  .timeline-item {
-    display: flex; gap: 12px; margin-bottom: 16px; position: relative;
-    padding-left: 24px;
-  }
+  .timeline { margin-top: 20px; }
+  .timeline h3 { font-size: 13px; font-weight: 700; color: var(--color-sumi-500); margin-bottom: 12px; }
+  .timeline-item { display: flex; gap: 12px; margin-bottom: 12px; padding-left: 20px; position: relative; }
   .timeline-item::before {
-    content: ''; position: absolute; left: 6px; top: 8px;
-    width: 10px; height: 10px; border-radius: 50%; border: 2px solid #334155;
-    background: #1e293b;
+    content: ''; position: absolute; left: 4px; top: 6px;
+    width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--color-sumi-300);
+    background: var(--color-neutral-white);
   }
   .timeline-item::after {
-    content: ''; position: absolute; left: 10px; top: 20px;
-    width: 2px; height: calc(100% + 6px); background: #334155;
+    content: ''; position: absolute; left: 7px; top: 16px;
+    width: 1px; height: calc(100% + 4px); background: var(--color-sumi-200);
   }
   .timeline-item:last-child::after { display: none; }
-  .timeline-item .time { font-size: 12px; color: #64748b; min-width: 50px; }
+  .timeline-item .time { font-size: 12px; color: var(--color-sumi-500); min-width: 40px; font-weight: 700; }
   .timeline-item .event { font-size: 13px; }
-  .timeline-item .event .source { color: #60a5fa; }
+  .timeline-item .event .source { color: var(--color-sea-600); }
 
   .mockup-badge {
-    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
-    background: #a855f7; color: white; padding: 4px 16px; border-radius: 4px;
-    font-size: 12px; font-weight: 700; z-index: 1000; letter-spacing: 1px;
+    position: fixed; top: 8px; left: 50%; transform: translateX(-50%);
+    background: var(--color-sumi-900); color: var(--color-neutral-white); padding: 3px 14px;
+    border-radius: 2px; font-size: 11px; font-weight: 700; z-index: 1000; letter-spacing: 0.04em;
   }
-
-  /* Second conflict */
-  .conflict-card.minor { border-color: #475569; }
 </style>
 </head>
 <body>
 
-<div class="mockup-badge">MOCKUP — UI PROTOTYPE</div>
+<div class="mockup-badge">MOCKUP</div>
 
 <div class="header">
-  <h1><span>DDCR</span> Conflict Resolution</h1>
-  <a href="cop-dashboard.html" class="back">← COP ダッシュボードに戻る</a>
+  <h1><span class="accent">DDCR</span> Conflict Resolution</h1>
+  <a href="cop-dashboard.html">&larr; COP ダッシュボードに戻る</a>
 </div>
 
 <div class="content">
-
-  <!-- Conflict 1: Main -->
+  <!-- Conflict 1 -->
   <div class="conflict-card">
     <div class="conflict-header">
       <div>
@@ -155,9 +190,7 @@
         </div>
         <div class="confidence-bar"><div class="fill high"></div></div>
       </div>
-
       <div class="vs-divider">VS</div>
-
       <div class="source-card b">
         <div class="source-label">ソース B — 藤沢市災害システム</div>
         <div class="source-value">147名</div>
@@ -173,8 +206,8 @@
     <div class="analysis">
       <h4>AI 分析（参考情報）</h4>
       <p>差分56名の推定要因: ソースAは06:30の現地目視カウント、ソースBは05:00の受付登録数。1時間30分の時差があり、早朝に新規避難者が到着した可能性がある。また、ソースBは受付登録を完了した避難者のみをカウントしており、未登録の避難者（自力避難、深夜到着）が差分に含まれる可能性がある。</p>
-      <p style="margin-top: 8px;">推奨: ソースA（より新しい現地確認）を暫定値として採用し、藤沢市に登録数の更新を依頼。</p>
-      <div class="ai-note">⚠ この分析はAIが生成した参考情報です。最終判断は必ず担当者が行ってください。信頼度スコアは過去の報告パターンから算出されており、保証するものではありません。</div>
+      <p style="margin-top: 6px;">推奨: ソースA（より新しい現地確認）を暫定値として採用し、藤沢市に登録数の更新を依頼。</p>
+      <div class="ai-note">この分析はAIが生成した参考情報です。最終判断は必ず担当者が行ってください。</div>
     </div>
 
     <div class="decision-form">
@@ -184,39 +217,24 @@
     </div>
 
     <div class="action-buttons">
-      <button class="btn btn-primary">ソースA（203名）を採用</button>
-      <button class="btn btn-secondary">ソースB（147名）を採用</button>
-      <button class="btn btn-escalate">上位に エスカレーション</button>
-      <button class="btn btn-ghost">保留（両方表示を継続）</button>
+      <button class="btn btn-green">ソースA（203名）を採用</button>
+      <button class="btn btn-yellow">ソースB（147名）を採用</button>
+      <button class="btn btn-red">上位にエスカレーション</button>
+      <button class="btn btn-outline">保留（両方表示を継続）</button>
     </div>
 
     <div class="timeline">
       <h3>矛盾の検出経緯</h3>
-      <div class="timeline-item">
-        <div class="time">05:00</div>
-        <div class="event"><span class="source">藤沢市システム</span> が147名を報告（受付登録ベース）</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">06:30</div>
-        <div class="event"><span class="source">自衛隊第3連隊</span> が203名を報告（現地目視カウント）</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">06:35</div>
-        <div class="event"><span class="source">DDCR Conflict Detector</span> が矛盾を自動検出。差分: 56名（38%）</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">06:35</div>
-        <div class="event"><span class="source">DDCR AI分析</span> が推定要因と推奨を生成</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">—</div>
-        <div class="event" style="color: #eab308;">担当者の判断待ち</div>
-      </div>
+      <div class="timeline-item"><div class="time">05:00</div><div class="event"><span class="source">藤沢市システム</span> が147名を報告（受付登録ベース）</div></div>
+      <div class="timeline-item"><div class="time">06:30</div><div class="event"><span class="source">自衛隊第3連隊</span> が203名を報告（現地目視カウント）</div></div>
+      <div class="timeline-item"><div class="time">06:35</div><div class="event"><span class="source">DDCR Conflict Detector</span> が矛盾を自動検出。差分: 56名（38%）</div></div>
+      <div class="timeline-item"><div class="time">06:35</div><div class="event"><span class="source">DDCR AI分析</span> が推定要因と推奨を生成</div></div>
+      <div class="timeline-item"><div class="time">—</div><div class="event" style="color:var(--color-primitive-yellow-700);">担当者の判断待ち</div></div>
     </div>
   </div>
 
-  <!-- Conflict 2: Simpler -->
-  <div class="conflict-card minor">
+  <!-- Conflict 2 -->
+  <div class="conflict-card">
     <div class="conflict-header">
       <div>
         <div class="conflict-title">避難者数の矛盾 — 川崎市H小学校</div>
@@ -236,9 +254,7 @@
         </div>
         <div class="confidence-bar"><div class="fill medium"></div></div>
       </div>
-
       <div class="vs-divider">VS</div>
-
       <div class="source-card b">
         <div class="source-label">ソース B — 川崎市集計システム</div>
         <div class="source-value">132名</div>
@@ -254,16 +270,15 @@
     <div class="analysis">
       <h4>AI 分析（参考情報）</h4>
       <p>差分37名。ソースBは夜間の紙集計をExcelに転記したもので、転記ミスまたは退去者の未反映が考えられる。DMAT巡回は医療チームによる直接確認だが、全フロアを確認したかは不明。</p>
-      <div class="ai-note">⚠ AI生成の参考情報です。最終判断は担当者が行ってください。</div>
+      <div class="ai-note">AI生成の参考情報です。最終判断は担当者が行ってください。</div>
     </div>
 
     <div class="action-buttons">
-      <button class="btn btn-primary">ソースA（95名）を採用</button>
-      <button class="btn btn-secondary">ソースB（132名）を採用</button>
-      <button class="btn btn-ghost">保留</button>
+      <button class="btn btn-green">ソースA（95名）を採用</button>
+      <button class="btn btn-yellow">ソースB（132名）を採用</button>
+      <button class="btn btn-outline">保留</button>
     </div>
   </div>
-
 </div>
 
 </body>
