@@ -190,6 +190,56 @@
     background: var(--color-sumi-900); color: var(--color-neutral-white); padding: 3px 14px;
     border-radius: 2px; font-size: 11px; font-weight: 700; z-index: 1000; letter-spacing: 0.04em;
   }
+
+  /* === Map Layer Controls === */
+  .map-controls {
+    position: absolute; top: 10px; left: 10px; z-index: 100;
+    background: rgba(255,255,255,0.97); border: 1px solid var(--color-sumi-200);
+    border-radius: 4px; padding: 7px 10px;
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  }
+  .layer-label { font-size: 11px; color: var(--color-sumi-500); margin-right: 2px; white-space: nowrap; }
+  .layer-btn {
+    padding: 3px 10px; border-radius: 3px; font-size: 11px; font-weight: 700;
+    cursor: pointer; border: 1px solid var(--color-sumi-300);
+    background: var(--color-neutral-white); color: var(--color-sumi-700);
+    font-family: var(--font-family-sans); transition: all 0.1s;
+  }
+  .layer-btn.active { background: var(--color-sea-600); color: #fff; border-color: var(--color-sea-600); }
+  .layer-btn.flood-active { background: #1a60c8; color: #fff; border-color: #1a60c8; }
+  .layer-btn.road-active { background: var(--color-primitive-red-700); color: #fff; border-color: var(--color-primitive-red-700); }
+  .layer-btn.supply-active { background: var(--color-primitive-orange-700); color: #fff; border-color: var(--color-primitive-orange-700); }
+
+  /* === Data Coverage Panel === */
+  .coverage-list { font-size: 12px; }
+  .coverage-group-label {
+    font-size: 11px; color: var(--color-sumi-500); margin: 6px 0 3px; font-weight: 700;
+  }
+  .coverage-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 3px 0; border-bottom: 1px solid var(--color-sumi-100);
+  }
+  .coverage-item:last-child { border-bottom: none; }
+  .coverage-item .cov-name { color: var(--color-sumi-900); }
+  .coverage-item .cov-time { font-size: 11px; color: var(--color-primitive-green-700); }
+  .coverage-item .cov-partial { font-size: 11px; color: var(--color-primitive-yellow-700); }
+  .coverage-item .cov-badge {
+    font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 2px;
+    background: var(--color-primitive-red-50); color: var(--color-primitive-red-900);
+  }
+  .coverage-summary {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+  .coverage-bar-bg {
+    flex: 1; height: 6px; background: var(--color-sumi-100); border-radius: 3px; overflow: hidden;
+  }
+  .coverage-bar-fill {
+    height: 100%; border-radius: 3px;
+    background: linear-gradient(90deg, var(--color-primitive-green-700) 0%, var(--color-primitive-green-700) 85%, var(--color-primitive-yellow-300) 85%);
+    width: 85%;
+  }
+  .coverage-pct { font-size: 12px; font-weight: 700; color: var(--color-primitive-green-900); }
 </style>
 </head>
 <body>
@@ -219,6 +269,13 @@
   </div>
 
   <div class="map-area">
+    <div class="map-controls">
+      <span class="layer-label">レイヤー:</span>
+      <button class="layer-btn active" id="btn-shelters">避難所</button>
+      <button class="layer-btn" id="btn-flood">浸水域</button>
+      <button class="layer-btn" id="btn-roads">通行不能道路</button>
+      <button class="layer-btn" id="btn-supply">物資拠点</button>
+    </div>
     <div id="map"></div>
   </div>
 
@@ -263,6 +320,36 @@
         <div class="alert-detail">3 shelters unreported for 2+ hours. Satellite link recommended.</div>
         <div class="alert-time">06:00</div>
       </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>データカバレッジ — 何がわかっていないか</h3>
+      <div class="coverage-summary">
+        <div class="coverage-bar-bg"><div class="coverage-bar-fill"></div></div>
+        <span class="coverage-pct">28 / 33 自治体</span>
+      </div>
+      <div class="coverage-list">
+        <div class="coverage-group-label">報告済 (25)</div>
+        <div class="coverage-item"><span class="cov-name">横浜市</span><span class="cov-time">06:40 ✓</span></div>
+        <div class="coverage-item"><span class="cov-name">川崎市</span><span class="cov-time">06:30 ✓</span></div>
+        <div class="coverage-item"><span class="cov-name">相模原市</span><span class="cov-time">06:35 ✓</span></div>
+        <div class="coverage-item"><span class="cov-name">藤沢市</span><span class="cov-time">06:20 ✓</span></div>
+        <div class="coverage-item"><span class="cov-name">小田原市</span><span class="cov-time">05:50 ✓</span></div>
+        <div class="coverage-item" style="color: var(--color-sumi-500); font-size:11px; padding: 2px 0;">…他 20 自治体</div>
+
+        <div class="coverage-group-label">一部報告 (3)</div>
+        <div class="coverage-item"><span class="cov-name">足柄上郡</span><span class="cov-partial">一部のみ 06:20</span></div>
+        <div class="coverage-item"><span class="cov-name">愛甲郡</span><span class="cov-partial">1/2 自治体 05:45</span></div>
+        <div class="coverage-item"><span class="cov-name">三浦郡</span><span class="cov-partial">遅延 04:00</span></div>
+
+        <div class="coverage-group-label">未報告 (5) — 要確認</div>
+        <div class="coverage-item"><span class="cov-name">山北町</span><span class="cov-badge">通信途絶</span></div>
+        <div class="coverage-item"><span class="cov-name">箱根町</span><span class="cov-badge">未報告</span></div>
+        <div class="coverage-item"><span class="cov-name">真鶴町</span><span class="cov-badge">未報告</span></div>
+        <div class="coverage-item"><span class="cov-name">湯河原町</span><span class="cov-badge">未報告</span></div>
+        <div class="coverage-item"><span class="cov-name">清川村</span><span class="cov-badge">未報告</span></div>
+      </div>
+      <div class="ai-note" style="margin-top:8px;">未報告自治体への確認手段: 衛星電話 / D-CERT 派遣 / ヘリ視察</div>
     </div>
   </div>
 </div>
@@ -312,6 +399,55 @@ function buildPopup(p) {
   return html;
 }
 
+// === Flood zone GeoJSON (simulated Sagami Bay coastal inundation) ===
+const floodZone = {
+  type: "FeatureCollection",
+  features: [{
+    type: "Feature",
+    geometry: {
+      type: "Polygon",
+      coordinates: [[
+        [139.08, 35.26], [139.15, 35.24], [139.25, 35.24],
+        [139.38, 35.25], [139.50, 35.26], [139.60, 35.27],
+        [139.68, 35.29], [139.72, 35.31], [139.72, 35.34],
+        [139.65, 35.33], [139.55, 35.31], [139.42, 35.30],
+        [139.28, 35.29], [139.18, 35.30], [139.08, 35.31],
+        [139.08, 35.26]
+      ]]
+    },
+    properties: { label: "津波浸水想定域（相模湾沿岸）" }
+  }]
+};
+
+// === Road closures GeoJSON ===
+const roadClosures = {
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      geometry: { type: "LineString", coordinates: [[139.12, 35.30],[139.18, 35.34],[139.22, 35.37]] },
+      properties: { road: "国道135号", reason: "土砂崩れ" }
+    },
+    {
+      type: "Feature",
+      geometry: { type: "LineString", coordinates: [[139.08, 35.34],[139.14, 35.38],[139.18, 35.42]] },
+      properties: { road: "国道255号", reason: "橋梁損傷" }
+    },
+    {
+      type: "Feature",
+      geometry: { type: "LineString", coordinates: [[139.42, 35.31],[139.36, 35.35],[139.30, 35.38]] },
+      properties: { road: "東名高速(西湘)", reason: "路面損傷" }
+    }
+  ]
+};
+
+// === Supply points ===
+const supplyPoints = [
+  { lnglat: [139.3500, 35.4300], name: "物資拠点: 厚木市体育館", stock: "水・食料・毛布 十分" },
+  { lnglat: [139.6200, 35.4600], name: "物資拠点: 川崎市スポーツセンター", stock: "水・食料 十分 / 毛布 不足" },
+  { lnglat: [139.4900, 35.3200], name: "物資拠点: 茅ヶ崎市文化会館", stock: "水 残り少 / 食料 十分" },
+];
+
 const map = new geolonia.Map({
   container: "map",
   center: [139.45, 35.40],
@@ -320,29 +456,80 @@ const map = new geolonia.Map({
   hash: false
 });
 
+// Layer visibility state
+const layerState = { shelters: true, flood: false, roads: false, supply: false };
+const shelterMarkers = [];
+const supplyMarkers = [];
+
 map.on("load", () => {
+  // --- Flood zone layer ---
+  map.addSource("flood", { type: "geojson", data: floodZone });
+  map.addLayer({
+    id: "flood-fill", type: "fill", source: "flood",
+    paint: { "fill-color": "#1a60c8", "fill-opacity": 0.28 },
+    layout: { visibility: "none" }
+  });
+  map.addLayer({
+    id: "flood-line", type: "line", source: "flood",
+    paint: { "line-color": "#0031d8", "line-width": 1.5, "line-dasharray": [3, 2] },
+    layout: { visibility: "none" }
+  });
+
+  // --- Road closures layer ---
+  map.addSource("roads", { type: "geojson", data: roadClosures });
+  map.addLayer({
+    id: "roads-line", type: "line", source: "roads",
+    paint: { "line-color": "#fa0000", "line-width": 3, "line-dasharray": [2, 2] },
+    layout: { visibility: "none" }
+  });
+
+  // --- Shelter markers ---
   shelters.features.forEach((f) => {
     const color = statusColors[f.properties.status] || "#1d8b56";
     const size = f.properties.status === "critical" || f.properties.status === "conflict" ? 14 : 10;
-
     const el = document.createElement("div");
-    el.style.width = size + "px";
-    el.style.height = size + "px";
-    el.style.borderRadius = "50%";
-    el.style.backgroundColor = color;
-    el.style.border = "2px solid #fff";
-    el.style.boxShadow = "0 1px 3px rgba(0,0,0,0.2)";
-    el.style.cursor = "pointer";
+    el.style.cssText = `width:${size}px;height:${size}px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.2);cursor:pointer;`;
+    const popup = new geolonia.Popup({ offset: 12, closeButton: false }).setHTML(buildPopup(f.properties));
+    const marker = new geolonia.Marker({ element: el }).setLngLat(f.geometry.coordinates).setPopup(popup).addTo(map);
+    shelterMarkers.push(marker);
+  });
 
+  // --- Supply point markers ---
+  supplyPoints.forEach((s) => {
+    const el = document.createElement("div");
+    el.style.cssText = "width:12px;height:12px;border-radius:2px;background:#e25100;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.2);cursor:pointer;display:none;";
+    el.title = s.name;
     const popup = new geolonia.Popup({ offset: 12, closeButton: false })
-      .setHTML(buildPopup(f.properties));
-
-    new geolonia.Marker({ element: el })
-      .setLngLat(f.geometry.coordinates)
-      .setPopup(popup)
-      .addTo(map);
+      .setHTML(`<div class="popup-name">${s.name}</div><div class="popup-detail">${s.stock}</div>`);
+    const marker = new geolonia.Marker({ element: el }).setLngLat(s.lnglat).setPopup(popup).addTo(map);
+    supplyMarkers.push({ marker, el });
   });
 });
+
+// === Layer toggle buttons ===
+function toggleLayer(layerName) {
+  layerState[layerName] = !layerState[layerName];
+  const vis = layerState[layerName] ? "visible" : "none";
+
+  if (layerName === "flood") {
+    ["flood-fill", "flood-line"].forEach(id => { if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", vis); });
+    document.getElementById("btn-flood").classList.toggle("flood-active", layerState.flood);
+  } else if (layerName === "roads") {
+    if (map.getLayer("roads-line")) map.setLayoutProperty("roads-line", "visibility", vis);
+    document.getElementById("btn-roads").classList.toggle("road-active", layerState.roads);
+  } else if (layerName === "supply") {
+    supplyMarkers.forEach(({ el }) => { el.style.display = layerState.supply ? "block" : "none"; });
+    document.getElementById("btn-supply").classList.toggle("supply-active", layerState.supply);
+  } else if (layerName === "shelters") {
+    shelterMarkers.forEach(m => { m.getElement().style.display = layerState.shelters ? "block" : "none"; });
+    document.getElementById("btn-shelters").classList.toggle("active", layerState.shelters);
+  }
+}
+
+document.getElementById("btn-shelters").addEventListener("click", () => toggleLayer("shelters"));
+document.getElementById("btn-flood").addEventListener("click", () => toggleLayer("flood"));
+document.getElementById("btn-roads").addEventListener("click", () => toggleLayer("roads"));
+document.getElementById("btn-supply").addEventListener("click", () => toggleLayer("supply"));
 </script>
 </body>
 </html>
