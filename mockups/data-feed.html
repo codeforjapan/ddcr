@@ -119,6 +119,21 @@
 
   .confidence-label { font-size: 10px; color: var(--color-sumi-500); margin-top: 2px; }
 
+  /* === Tab Nav === */
+  .tab-nav {
+    display: flex; background: var(--color-neutral-white);
+    border-bottom: 2px solid var(--color-sumi-200);
+    padding: 0 16px; overflow-x: auto;
+  }
+  .tab-nav a {
+    display: inline-flex; align-items: center;
+    padding: 8px 16px; font-size: 13px; font-weight: 700;
+    color: var(--color-sumi-500); text-decoration: none;
+    border-bottom: 2px solid transparent; margin-bottom: -2px;
+    white-space: nowrap; transition: color 0.1s;
+  }
+  .tab-nav a:hover { color: var(--color-sea-600); }
+  .tab-nav a.active { color: var(--color-sea-600); border-bottom-color: var(--color-sea-600); }
 </style>
 </head>
 <body>
@@ -137,6 +152,13 @@
     <div data-i18n="df.meta.updated">最終更新: 2秒前</div>
   </div>
 </div>
+
+<nav class="tab-nav">
+  <a href="cop-dashboard.html" data-i18n="nav.cop">COP ダッシュボード</a>
+  <a href="conflict-view.html" data-i18n="nav.conflict">競合解消</a>
+  <a href="data-feed.html" class="active" data-i18n="nav.datafeed">データフィード</a>
+  <a href="trend-forecast.html" data-i18n="nav.trend">トレンド予測</a>
+</nav>
 
 <div class="content">
   <div class="filters">

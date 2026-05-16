@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ja" data-page-title="trend.title">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDCR — トレンド分析・予測（モックアップ）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* === デジタル庁デザインシステム Design Tokens === */
+  :root {
+    --color-primitive-blue-900: #0017c1;
+    --color-primitive-blue-1000: #00118f;
+    --color-primitive-green-50: #e6f5ec;
+    --color-primitive-green-700: #1d8b56;
+    --color-primitive-green-900: #115a36;
+    --color-primitive-yellow-50: #fbf5e0;
+    --color-primitive-yellow-300: #ffd43d;
+    --color-primitive-yellow-700: #b78f00;
+    --color-primitive-red-50: #fdeeee;
+    --color-primitive-red-700: #fa0000;
+    --color-primitive-red-900: #bb0000;
+    --color-primitive-purple-50: #f3edf7;
+    --color-primitive-purple-700: #7b3baf;
+    --color-neutral-white: #ffffff;
+    --color-sea-600: #0031d8;
+    --color-sumi-900: #1a1a1c;
+    --color-sumi-500: #6e6e78;
+    --color-sumi-300: #c0c1c5;
+    --color-sumi-200: #d5d5d9;
+    --color-sumi-100: #e8e8eb;
+    --color-sumi-50: #f5f5f5;
+    --font-family-sans: 'Noto Sans JP', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-family-sans); background: var(--color-sumi-50); color: var(--color-sumi-900); font-size: 14px; line-height: 1.7; }
+
+  /* === Header === */
+  .header {
+    background: var(--color-neutral-white);
+    padding: 12px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--color-sumi-200);
+  }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header h1 { font-size: 16px; font-weight: 700; color: var(--color-sumi-900); }
+  .header h1 .accent { color: var(--color-sea-600); }
+  .header .meta { display: flex; gap: 16px; font-size: 12px; color: var(--color-sumi-500); }
+  .header .live { color: var(--color-primitive-green-700); display: flex; align-items: center; gap: 4px; }
+  .header .live::before { content: ''; width: 6px; height: 6px; background: var(--color-primitive-green-700); border-radius: 50%; }
+
+  /* === Tab Nav === */
+  .tab-nav {
+    display: flex;
+    background: var(--color-neutral-white);
+    border-bottom: 2px solid var(--color-sumi-200);
+    padding: 0 16px;
+    overflow-x: auto;
+  }
+  .tab-nav a {
+    display: inline-flex; align-items: center;
+    padding: 8px 16px;
+    font-size: 13px; font-weight: 700;
+    color: var(--color-sumi-500);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: color 0.1s;
+  }
+  .tab-nav a:hover { color: var(--color-sea-600); }
+  .tab-nav a.active { color: var(--color-sea-600); border-bottom-color: var(--color-sea-600); }
+
+  /* === Slider Bar === */
+  .slider-bar {
+    background: var(--color-neutral-white);
+    border-bottom: 1px solid var(--color-sumi-200);
+    padding: 10px 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .slider-bar label { font-size: 12px; font-weight: 700; color: var(--color-sumi-500); white-space: nowrap; }
+  .slider-bar input[type=range] { flex: 1; accent-color: var(--color-sea-600); height: 4px; cursor: pointer; }
+  .slider-bar .time-display { font-size: 14px; font-weight: 700; color: var(--color-sea-600); min-width: 72px; text-align: right; white-space: nowrap; }
+
+  /* === Main Panels Grid === */
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+    padding: 12px;
+  }
+  .panel {
+    background: var(--color-neutral-white);
+    border: 1px solid var(--color-sumi-200);
+    border-radius: 4px;
+    padding: 16px;
+  }
+  .panel-title {
+    font-size: 12px; font-weight: 700;
+    color: var(--color-sumi-500); letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-sumi-100);
+  }
+
+  /* === Panel 1: CPS4D Phase Tracker === */
+  .phase-row {
+    display: flex; align-items: stretch; gap: 0;
+    height: 44px; border-radius: 4px; overflow: hidden;
+    margin-bottom: 8px;
+    border: 1px solid var(--color-sumi-100);
+  }
+  .phase-block {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex: 1; position: relative;
+    transition: opacity 0.3s;
+    border-right: 1px solid var(--color-sumi-100);
+  }
+  .phase-block:last-child { border-right: none; }
+  .phase-block.prevention { background: #e8f1fe; color: #264af4; }
+  .phase-block.response   { background: var(--color-primitive-yellow-50); color: var(--color-primitive-yellow-700); }
+  .phase-block.recovery   { background: var(--color-primitive-green-50); color: var(--color-primitive-green-900); }
+  .phase-block.phase-active { box-shadow: inset 0 0 0 2px currentColor; }
+  .phase-block.phase-inactive { opacity: 0.35; }
+  .phase-current-dot {
+    width: 8px; height: 8px;
+    background: var(--color-sea-600); border-radius: 50%;
+    position: absolute; bottom: 5px; right: 7px;
+    box-shadow: 0 0 0 2px #fff;
+  }
+
+  .sub-row {
+    display: flex; align-items: stretch;
+    height: 28px; border-radius: 4px; overflow: hidden;
+    margin-bottom: 8px;
+    border: 1px solid var(--color-primitive-yellow-300);
+  }
+  .sub-block {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; flex: 1;
+    background: var(--color-primitive-yellow-50);
+    color: var(--color-primitive-yellow-700);
+    border-right: 1px solid var(--color-primitive-yellow-300);
+    transition: opacity 0.3s;
+  }
+  .sub-block:last-child { border-right: none; }
+  .sub-block.sub-active { background: var(--color-primitive-yellow-300); color: var(--color-sumi-900); font-weight: 700; }
+  .sub-block.sub-done   { background: var(--color-primitive-green-50); color: var(--color-primitive-green-700); }
+  .sub-block.sub-inactive { opacity: 0.3; }
+
+  .phase-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+  .phase-label-text { font-size: 12px; font-weight: 700; color: var(--color-sumi-900); }
+  .convergence-badge {
+    background: var(--color-sea-600); color: #fff;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 10px; border-radius: 2px;
+  }
+
+  /* === Panel 2: YoY Chart === */
+  .yoy-controls { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .yoy-controls span { font-size: 11px; color: var(--color-sumi-500); }
+  .picker-btn {
+    padding: 3px 10px; border-radius: 3px; font-size: 11px; font-weight: 700;
+    cursor: pointer; border: 1px solid var(--color-sumi-300);
+    background: var(--color-neutral-white); color: var(--color-sumi-500);
+    font-family: var(--font-family-sans); transition: all 0.1s;
+  }
+  .picker-btn.active { background: var(--color-sea-600); color: #fff; border-color: var(--color-sea-600); }
+  .chart-container { position: relative; height: 180px; }
+
+  /* === Panel 3: Prediction === */
+  .pred-container { position: relative; height: 210px; }
+
+  /* === Panel 4: Threshold Console === */
+  .gauges { display: flex; gap: 8px; margin-bottom: 12px; }
+  .gauge-item {
+    flex: 1; background: var(--color-sumi-50); border-radius: 4px;
+    padding: 8px 6px; text-align: center;
+    border: 1px solid var(--color-sumi-100);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .gauge-item.breach { background: var(--color-primitive-red-50); border-color: var(--color-primitive-red-700); }
+  .gauge-name { font-size: 10px; color: var(--color-sumi-500); margin-bottom: 2px; font-weight: 700; }
+  .gauge-value { font-size: 18px; font-weight: 700; color: var(--color-sea-600); transition: color 0.3s; }
+  .gauge-item.breach .gauge-value { color: var(--color-primitive-red-900); }
+  .gauge-threshold-label { font-size: 9px; color: var(--color-sumi-500); margin-top: 1px; }
+  .gauge-bar-bg { width: 100%; height: 4px; background: var(--color-sumi-200); border-radius: 2px; margin-top: 4px; }
+  .gauge-bar-fill { height: 100%; border-radius: 2px; background: var(--color-sea-600); transition: width 0.5s, background 0.3s; }
+  .gauge-item.breach .gauge-bar-fill { background: var(--color-primitive-red-700); }
+
+  .ai-suggestion {
+    background: var(--color-primitive-yellow-50);
+    border: 1px solid var(--color-primitive-yellow-300);
+    border-radius: 4px; padding: 10px 12px; margin-bottom: 10px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .ai-suggestion.approved { background: var(--color-primitive-green-50); border-color: var(--color-primitive-green-700); }
+  .ai-suggest-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .ai-suggest-label { font-size: 11px; font-weight: 700; color: var(--color-primitive-yellow-700); }
+  .ai-suggestion.approved .ai-suggest-label { color: var(--color-primitive-green-700); }
+  .ai-suggest-text { font-size: 12px; color: var(--color-sumi-900); line-height: 1.5; }
+  .ai-actions { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .btn-approve {
+    padding: 4px 14px; border-radius: 3px; font-size: 12px; font-weight: 700;
+    background: var(--color-primitive-blue-900); color: #fff; border: none;
+    cursor: pointer; font-family: var(--font-family-sans);
+  }
+  .btn-approve:hover:not(:disabled) { background: var(--color-primitive-blue-1000); }
+  .btn-approve:disabled { background: var(--color-primitive-green-700); cursor: default; }
+  .countdown { font-size: 11px; color: var(--color-primitive-red-700); font-weight: 700; }
+  .countdown.ok { color: var(--color-primitive-green-700); }
+
+  .threshold-sim { margin-bottom: 10px; }
+  .sim-label { font-size: 11px; font-weight: 700; color: var(--color-sumi-500); margin-bottom: 5px; }
+  .sim-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+  .sim-row label { font-size: 10px; color: var(--color-sumi-500); min-width: 72px; }
+  .sim-row input[type=range] { flex: 1; accent-color: var(--color-sea-600); height: 3px; cursor: pointer; }
+  .sim-val { font-size: 10px; font-weight: 700; min-width: 30px; text-align: right; color: var(--color-sea-600); }
+
+  .lead-time-section {}
+  .lead-time-title { font-size: 11px; font-weight: 700; color: var(--color-sumi-500); margin-bottom: 5px; }
+  .lead-time-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 3px 0; border-bottom: 1px solid var(--color-sumi-100);
+    font-size: 11px;
+  }
+  .lead-time-item:last-child { border-bottom: none; }
+  .lt-event { color: var(--color-sumi-500); }
+  .lt-time { font-weight: 700; }
+  .lt-ok   { color: var(--color-primitive-green-700); }
+  .lt-warn { color: var(--color-primitive-yellow-700); }
+  .lt-late { color: var(--color-primitive-red-700); }
+
+  /* === Footer === */
+  .footer {
+    background: var(--color-sumi-50); padding: 6px 16px;
+    font-size: 11px; color: var(--color-sumi-500);
+    display: flex; justify-content: space-between;
+    border-top: 1px solid var(--color-sumi-200);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1><span class="accent">DDCR</span> <span data-i18n="trend.heading">Trends &amp; Forecasts</span></h1>
+  </div>
+  <div class="lang-switcher" role="group" aria-label="Language switcher">
+    <button data-set-lang="ja" aria-pressed="true">日本語</button>
+    <button data-set-lang="en" aria-pressed="false">EN</button>
+  </div>
+  <div class="meta">
+    <div class="live" data-i18n="cop.live">ライブ</div>
+    <div data-i18n="cop.header.updated">更新: 2026-01-01 06:45 JST</div>
+    <div data-i18n="cop.header.sources">ソース: 12 接続中</div>
+  </div>
+</div>
+
+<nav class="tab-nav">
+  <a href="cop-dashboard.html" data-i18n="nav.cop">COP ダッシュボード</a>
+  <a href="conflict-view.html" data-i18n="nav.conflict">競合解消</a>
+  <a href="data-feed.html" data-i18n="nav.datafeed">データフィード</a>
+  <a href="trend-forecast.html" class="active" data-i18n="nav.trend">トレンド予測</a>
+</nav>
+
+<div class="slider-bar">
+  <label for="time-slider" data-i18n="trend.time.label">発災後経過時間:</label>
+  <input type="range" id="time-slider" min="0" max="72" value="36" step="1">
+  <span class="time-display">
+    <span id="time-val">36</span>&nbsp;<span data-i18n="trend.time.unit">時間</span>
+  </span>
+</div>
+
+<div class="panels">
+
+  <!-- Panel 1: CPS4D Phase Tracker -->
+  <div class="panel">
+    <div class="panel-title" data-i18n="trend.panel1.heading">CPS4D フェーズトラッカー</div>
+    <div class="phase-row">
+      <div class="phase-block prevention phase-inactive" id="pb-prevention">
+        <span data-i18n="trend.phase.prevention">予防</span>
+      </div>
+      <div class="phase-block response phase-active" id="pb-response">
+        <span data-i18n="trend.phase.response">対応</span>
+        <span class="phase-current-dot" id="phase-dot"></span>
+      </div>
+      <div class="phase-block recovery phase-inactive" id="pb-recovery">
+        <span data-i18n="trend.phase.recovery">回復</span>
+      </div>
+    </div>
+    <div class="sub-row" id="sub-row">
+      <div class="sub-block sub-done"     id="sb-signs">   <span data-i18n="trend.phase.sub.signs">兆候</span></div>
+      <div class="sub-block sub-done"     id="sb-initial"> <span data-i18n="trend.phase.sub.initial">初動</span></div>
+      <div class="sub-block sub-active"   id="sb-spread">  <span data-i18n="trend.phase.sub.spread">拡大</span></div>
+      <div class="sub-block sub-inactive" id="sb-subsiding"><span data-i18n="trend.phase.sub.subsiding">収束</span></div>
+    </div>
+    <div class="phase-meta">
+      <span class="phase-label-text" id="phase-label">対応フェーズ / 拡大期</span>
+      <span class="convergence-badge" data-i18n="trend.phase.convergence">収束予測: +18h</span>
+    </div>
+  </div>
+
+  <!-- Panel 2: YoY Comparison -->
+  <div class="panel">
+    <div class="panel-title" data-i18n="trend.panel2.heading">YoY 比較（対前年比）</div>
+    <div class="yoy-controls">
+      <span data-i18n="trend.yoy.picker.label">ベースライン:</span>
+      <button class="picker-btn active" id="picker-median"   onclick="switchBaseline('median')"   data-i18n="trend.yoy.picker.median">過去3年中央値</button>
+      <button class="picker-btn"        id="picker-lastyear" onclick="switchBaseline('lastyear')" data-i18n="trend.yoy.picker.lastyear">前年同日</button>
+      <button class="picker-btn"        id="picker-similar"  onclick="switchBaseline('similar')"  data-i18n="trend.yoy.picker.similar">類似災害</button>
+    </div>
+    <div class="chart-container">
+      <canvas id="yoy-chart"></canvas>
+    </div>
+  </div>
+
+  <!-- Panel 3: Prediction Band -->
+  <div class="panel">
+    <div class="panel-title" data-i18n="trend.panel3.heading">避難者数 — 予測バンド (0〜72h)</div>
+    <div class="pred-container">
+      <canvas id="pred-chart"></canvas>
+    </div>
+  </div>
+
+  <!-- Panel 4: Threshold Console -->
+  <div class="panel">
+    <div class="panel-title" data-i18n="trend.panel4.heading">閾値コンソール + リードタイム</div>
+
+    <div class="gauges">
+      <div class="gauge-item breach" id="gauge-capacity">
+        <div class="gauge-name" data-i18n="trend.gauge.capacity">収容率</div>
+        <div class="gauge-value" id="gv-capacity">87%</div>
+        <div class="gauge-threshold-label"><span data-i18n="trend.gauge.threshold">閾値</span>: <span id="gt-capacity">85%</span></div>
+        <div class="gauge-bar-bg"><div class="gauge-bar-fill" id="gb-capacity" style="width:87%"></div></div>
+      </div>
+      <div class="gauge-item breach" id="gauge-supply">
+        <div class="gauge-name" data-i18n="trend.gauge.supply">物資充足</div>
+        <div class="gauge-value" id="gv-supply">55%</div>
+        <div class="gauge-threshold-label"><span data-i18n="trend.gauge.threshold">閾値</span>: <span id="gt-supply">60%</span></div>
+        <div class="gauge-bar-bg"><div class="gauge-bar-fill" id="gb-supply" style="width:55%"></div></div>
+      </div>
+      <div class="gauge-item" id="gauge-comm">
+        <div class="gauge-name" data-i18n="trend.gauge.comm">通信障害率</div>
+        <div class="gauge-value" id="gv-comm">32%</div>
+        <div class="gauge-threshold-label"><span data-i18n="trend.gauge.threshold">閾値</span>: <span id="gt-comm">35%</span></div>
+        <div class="gauge-bar-bg"><div class="gauge-bar-fill" id="gb-comm" style="width:32%"></div></div>
+      </div>
+    </div>
+
+    <div class="ai-suggestion" id="ai-suggestion">
+      <div class="ai-suggest-header">
+        <span class="ai-suggest-label" data-i18n="trend.ai.suggest">AI 提案</span>
+        <span class="countdown" id="countdown">⏱ 2:47 <span data-i18n="trend.ai.in">まで</span>自動エスカレーション</span>
+      </div>
+      <div class="ai-suggest-text" id="ai-text-ja">
+        収容率が閾値(85%)を超過。相模原C体育館への転送を推奨します。また物資充足率が低下 — 厚木市拠点からの緊急搬送を要請してください。
+      </div>
+      <div class="ai-suggest-text" id="ai-text-en" style="display:none;">
+        Occupancy rate exceeds threshold (85%). Transfer to Sagamihara-C Gymnasium recommended. Supply sufficiency declining — request emergency transport from Atsugi depot.
+      </div>
+      <div class="ai-actions">
+        <button class="btn-approve" id="btn-approve" onclick="approveSuggestion()">
+          <span data-i18n="trend.ai.approve">✓ 承認</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="threshold-sim">
+      <div class="sim-label" data-i18n="trend.sim.label">閾値シミュレーター</div>
+      <div class="sim-row">
+        <label data-i18n="trend.gauge.capacity">収容率</label>
+        <input type="range" id="sim-capacity" min="70" max="100" value="85" step="1" oninput="updateThreshold('capacity', this.value)">
+        <span class="sim-val" id="sv-capacity">85%</span>
+      </div>
+      <div class="sim-row">
+        <label data-i18n="trend.gauge.supply">物資充足</label>
+        <input type="range" id="sim-supply" min="40" max="80" value="60" step="1" oninput="updateThreshold('supply', this.value)">
+        <span class="sim-val" id="sv-supply">60%</span>
+      </div>
+      <div class="sim-row">
+        <label data-i18n="trend.gauge.comm">通信障害率</label>
+        <input type="range" id="sim-comm" min="20" max="60" value="35" step="1" oninput="updateThreshold('comm', this.value)">
+        <span class="sim-val" id="sv-comm">35%</span>
+      </div>
+    </div>
+
+    <div class="lead-time-section">
+      <div class="lead-time-title" data-i18n="trend.leadtime.heading">リードタイム履歴</div>
+      <div class="lead-time-item">
+        <span class="lt-event" data-i18n-lt-ja="物資搬送要請" data-i18n-lt-en="Supply transport request">物資搬送要請</span>
+        <span class="lt-time lt-ok" data-i18n-lt-ja="+23分で対応" data-i18n-lt-en="Resolved in +23 min">+23分で対応</span>
+      </div>
+      <div class="lead-time-item">
+        <span class="lt-event" data-i18n-lt-ja="定員超過転送" data-i18n-lt-en="Over-capacity transfer">定員超過転送</span>
+        <span class="lt-time lt-warn" data-i18n-lt-ja="+58分で対応" data-i18n-lt-en="Resolved in +58 min">+58分で対応</span>
+      </div>
+      <div class="lead-time-item">
+        <span class="lt-event" data-i18n-lt-ja="通信途絶確認" data-i18n-lt-en="Comm. loss confirmed">通信途絶確認</span>
+        <span class="lt-time lt-late" data-i18n-lt-ja="+2h12分で対応" data-i18n-lt-en="Resolved in +2h12m">+2h12分で対応</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div data-i18n="cop.footer.left">DDCR v0.1 | 神奈川県防災訓練 | 12 データソース接続中</div>
+  <div data-i18n="cop.footer.right">すべてのデータポイントはW3C PROV-O準拠の来歴メタデータを保持</div>
+</div>
+
+<script src="./lib/chart.umd.js"></script>
+<script>
+'use strict';
+
+/* ── Data ──────────────────────────────────────────────────────────── */
+
+const YOY_LABELS_JA = ['避難者数', '物資配分効率', '通信障害件数', '避難所稼働数', '要支援者対応率'];
+const YOY_LABELS_EN = ['Evacuees', 'Supply Eff.', 'Comm. Failures', 'Shelters Active', 'Vuln. Care'];
+const CURRENT_VALUES = [34127, 67, 12, 247, 84];
+const BASELINES = {
+  median:   [21000, 82, 5, 189, 91],
+  lastyear: [18500, 79, 4, 156, 88],
+  similar:  [28000, 74, 8, 210, 85],
+};
+let currentBaseline = 'median';
+
+function getYoYDeviation(key) {
+  return CURRENT_VALUES.map(function(v, i) {
+    return Math.round((v / BASELINES[key][i] - 1) * 100);
+  });
+}
+
+const PRED_HOURS = [0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72];
+const ACTUAL_FULL = [200, 5200, 12400, 21500, 28300, 32800, 34127, 35800, 36900, 37800, 38200, 38500, 38700];
+const PRED_BASE   = [null, null, null, null, null, null, 34127, 35800, 37200, 38100, 38600, 38800, 38900];
+const CI_UPPER    = [null, null, null, null, null, null, 34127, 42000, 45500, 47200, 48300, 49000, 49500];
+const CI_LOWER    = [null, null, null, null, null, null, 34127, 29500, 29000, 29100, 29200, 28800, 28400];
+
+const PHASE_DEFS = [
+  { range: [0, 6],  main: 'prevention', sub: null,       label_ja: '予防フェーズ',           label_en: 'Prevention Phase' },
+  { range: [6, 18], main: 'response',   sub: 'initial',  label_ja: '対応フェーズ / 初動期',   label_en: 'Response / Initial' },
+  { range: [18, 42],main: 'response',   sub: 'spread',   label_ja: '対応フェーズ / 拡大期',   label_en: 'Response / Spread' },
+  { range: [42, 60],main: 'response',   sub: 'subsiding',label_ja: '対応フェーズ / 収束期',   label_en: 'Response / Subsiding' },
+  { range: [60, 73],main: 'recovery',   sub: null,       label_ja: '回復フェーズ',            label_en: 'Recovery Phase' },
+];
+
+function getPhase(h) {
+  return PHASE_DEFS.find(function(d) { return h >= d.range[0] && h < d.range[1]; }) || PHASE_DEFS[PHASE_DEFS.length - 1];
+}
+
+function getGaugeValues(h) {
+  var cap  = Math.min(97, Math.max(30, 30 + h * 1.5 - Math.max(0, h - 48) * 0.8));
+  var sup  = Math.max(18, 95 - h * 1.1);
+  var comm = Math.min(55, Math.max(4, 4 + h * 1.6 - Math.max(0, h - 24) * 1.0));
+  return { cap: Math.round(cap), sup: Math.round(sup), comm: Math.round(comm) };
+}
+
+var thresholds = { capacity: 85, supply: 60, comm: 35 };
+
+/* ── Charts ────────────────────────────────────────────────────────── */
+
+var yoyChart, predChart;
+
+function initYoyChart() {
+  var lang = document.documentElement.lang || 'ja';
+  var ctx = document.getElementById('yoy-chart').getContext('2d');
+  yoyChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: lang === 'en' ? YOY_LABELS_EN : YOY_LABELS_JA,
+      datasets: [{
+        label: lang === 'en' ? '% vs baseline' : 'ベースライン比 %',
+        data: getYoYDeviation('median'),
+        backgroundColor: function(ctx2) {
+          return ctx2.dataset.data[ctx2.dataIndex] >= 0 ? 'rgba(0,49,216,0.65)' : 'rgba(250,0,0,0.50)';
+        },
+        borderRadius: 2,
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx2) {
+              var v = ctx2.raw;
+              return (v >= 0 ? '+' : '') + v + '% vs baseline';
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: {
+          grid: { color: '#e8e8eb' },
+          ticks: { font: { size: 10 }, callback: function(v) { return (v >= 0 ? '+' : '') + v + '%'; } }
+        }
+      }
+    }
+  });
+}
+
+function switchBaseline(key) {
+  currentBaseline = key;
+  ['median','lastyear','similar'].forEach(function(k) {
+    document.getElementById('picker-' + k).classList.toggle('active', k === key);
+  });
+  yoyChart.data.datasets[0].data = getYoYDeviation(key);
+  yoyChart.update();
+}
+
+function initPredChart() {
+  var ctx = document.getElementById('pred-chart').getContext('2d');
+  predChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: PRED_HOURS.map(function(h) { return h + 'h'; }),
+      datasets: [
+        {
+          label: '95% CI upper',
+          data: CI_UPPER.slice(),
+          borderColor: 'transparent',
+          backgroundColor: 'rgba(0,49,216,0.10)',
+          fill: '+1',
+          tension: 0.3,
+          pointRadius: 0,
+        },
+        {
+          label: '95% CI lower',
+          data: CI_LOWER.slice(),
+          borderColor: 'rgba(0,49,216,0.15)',
+          backgroundColor: 'transparent',
+          fill: false,
+          tension: 0.3,
+          pointRadius: 0,
+        },
+        {
+          label: '予測値',
+          data: PRED_BASE.slice(),
+          borderColor: 'rgba(0,49,216,0.7)',
+          borderDash: [5, 3],
+          backgroundColor: 'transparent',
+          fill: false,
+          tension: 0.3,
+          pointRadius: 3,
+          pointBackgroundColor: 'rgba(0,49,216,0.7)',
+        },
+        {
+          label: '実測値',
+          data: ACTUAL_FULL.map(function(v, i) { return i <= 6 ? v : null; }),
+          borderColor: '#1d8b56',
+          backgroundColor: 'transparent',
+          fill: false,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: '#1d8b56',
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            font: { size: 10 },
+            boxWidth: 12,
+            filter: function(item) { return item.datasetIndex >= 2; }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx2) {
+              if (ctx2.raw === null || ctx2.raw === undefined) return null;
+              if (ctx2.datasetIndex < 2) return null;
+              return ctx2.dataset.label + ': ' + ctx2.raw.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+        y: {
+          grid: { color: '#e8e8eb' },
+          ticks: {
+            font: { size: 9 },
+            callback: function(v) { return v >= 1000 ? Math.round(v / 1000) + 'k' : v; }
+          }
+        }
+      }
+    }
+  });
+}
+
+/* ── Phase update ──────────────────────────────────────────────────── */
+
+function updatePhase(h) {
+  var def = getPhase(h);
+  var lang = document.documentElement.lang || 'ja';
+
+  // Main phase blocks
+  var mains = ['prevention', 'response', 'recovery'];
+  var mainOrder = { prevention: 0, response: 1, recovery: 2 };
+  var defOrder = mainOrder[def.main];
+  mains.forEach(function(p) {
+    var el = document.getElementById('pb-' + p);
+    if (!el) return;
+    el.classList.remove('phase-active', 'phase-inactive');
+    var order = mainOrder[p];
+    if (p === def.main) {
+      el.classList.add('phase-active');
+    } else if (order < defOrder) {
+      // already passed — subtle dim
+      el.classList.add('phase-inactive');
+    } else {
+      el.classList.add('phase-inactive');
+    }
+  });
+
+  // Move dot to active main block
+  var dot = document.getElementById('phase-dot');
+  var activeBlock = document.getElementById('pb-' + def.main);
+  if (dot && activeBlock && !activeBlock.contains(dot)) {
+    activeBlock.appendChild(dot);
+  }
+
+  // Sub-phases
+  var subRow = document.getElementById('sub-row');
+  if (def.main !== 'response') {
+    subRow.style.display = 'none';
+  } else {
+    subRow.style.display = 'flex';
+    var subs = ['signs', 'initial', 'spread', 'subsiding'];
+    var subIdx = subs.indexOf(def.sub);
+    subs.forEach(function(s, i) {
+      var el = document.getElementById('sb-' + s);
+      if (!el) return;
+      el.classList.remove('sub-active', 'sub-done', 'sub-inactive');
+      if (i < subIdx) el.classList.add('sub-done');
+      else if (i === subIdx) el.classList.add('sub-active');
+      else el.classList.add('sub-inactive');
+    });
+  }
+
+  // Phase label
+  var label = document.getElementById('phase-label');
+  if (label) label.textContent = lang === 'en' ? def.label_en : def.label_ja;
+}
+
+/* ── Gauge update ──────────────────────────────────────────────────── */
+
+function updateGauges(h) {
+  var v = getGaugeValues(h);
+  var capBreach = v.cap > thresholds.capacity;
+  var supBreach = v.sup < thresholds.supply;
+  var comBreach = v.comm > thresholds.comm;
+
+  setGauge('capacity', v.cap, capBreach);
+  setGauge('supply', v.sup, supBreach);
+  setGauge('comm', v.comm, comBreach);
+}
+
+function setGauge(name, val, isBreach) {
+  var item  = document.getElementById('gauge-' + name);
+  var valEl = document.getElementById('gv-' + name);
+  var barEl = document.getElementById('gb-' + name);
+  if (!item || !valEl || !barEl) return;
+  valEl.textContent = val + '%';
+  item.classList.toggle('breach', isBreach);
+  barEl.style.width = Math.min(100, val) + '%';
+}
+
+function updateThreshold(name, val) {
+  val = parseInt(val, 10);
+  thresholds[name] = val;
+  document.getElementById('sv-' + name).textContent = val + '%';
+  document.getElementById('gt-' + name).textContent = val + '%';
+  var h = parseInt(document.getElementById('time-slider').value, 10);
+  updateGauges(h);
+}
+
+/* ── Prediction chart update ───────────────────────────────────────── */
+
+function updatePredChart(h) {
+  var splitIdx = PRED_HOURS.findIndex(function(ph) { return ph >= h; });
+  if (splitIdx === -1) splitIdx = PRED_HOURS.length - 1;
+
+  var newActual = PRED_HOURS.map(function(ph, i) {
+    return i <= splitIdx ? ACTUAL_FULL[i] : null;
+  });
+  var newPred = PRED_HOURS.map(function(ph, i) {
+    if (i < splitIdx) return null;
+    return i === splitIdx ? ACTUAL_FULL[i] : PRED_BASE[i];
+  });
+  var newCIU = PRED_HOURS.map(function(ph, i) {
+    return i < splitIdx ? null : CI_UPPER[i];
+  });
+  var newCIL = PRED_HOURS.map(function(ph, i) {
+    return i < splitIdx ? null : CI_LOWER[i];
+  });
+
+  predChart.data.datasets[0].data = newCIU;
+  predChart.data.datasets[1].data = newCIL;
+  predChart.data.datasets[2].data = newPred;
+  predChart.data.datasets[3].data = newActual;
+  predChart.update('none');
+}
+
+/* ── Countdown timer ───────────────────────────────────────────────── */
+
+var countdownSec = 167;
+var countdownInterval = null;
+var approved = false;
+
+function startCountdown() {
+  countdownInterval = setInterval(function() {
+    if (approved) { clearInterval(countdownInterval); return; }
+    countdownSec--;
+    if (countdownSec <= 0) {
+      clearInterval(countdownInterval);
+      var cd = document.getElementById('countdown');
+      var lang = document.documentElement.lang || 'ja';
+      if (cd) {
+        cd.textContent = lang === 'en' ? '⚠ Auto-escalated' : '⚠ 自動エスカレーション済み';
+      }
+      return;
+    }
+    var min = Math.floor(countdownSec / 60);
+    var sec = countdownSec % 60;
+    var cd = document.getElementById('countdown');
+    var lang = document.documentElement.lang || 'ja';
+    if (cd) {
+      var untilStr = lang === 'en' ? 'until auto-escalate' : 'まで自動エスカレーション';
+      cd.textContent = '⏱ ' + min + ':' + (sec < 10 ? '0' : '') + sec + ' ' + untilStr;
+    }
+  }, 1000);
+}
+
+function approveSuggestion() {
+  approved = true;
+  clearInterval(countdownInterval);
+  var sug = document.getElementById('ai-suggestion');
+  var btn = document.getElementById('btn-approve');
+  var cd = document.getElementById('countdown');
+  if (sug) sug.classList.add('approved');
+  if (btn) { btn.disabled = true; }
+  if (cd) { cd.textContent = '✓ 承認済み'; cd.classList.add('ok'); }
+}
+
+/* ── Lead time i18n ────────────────────────────────────────────────── */
+
+function updateLeadTimeTexts(lang) {
+  document.querySelectorAll('[data-i18n-lt-ja]').forEach(function(el) {
+    el.textContent = lang === 'en' ? el.getAttribute('data-i18n-lt-en') : el.getAttribute('data-i18n-lt-ja');
+  });
+  var jaText = document.getElementById('ai-text-ja');
+  var enText = document.getElementById('ai-text-en');
+  if (jaText && enText) {
+    jaText.style.display = lang === 'en' ? 'none' : '';
+    enText.style.display = lang === 'en' ? '' : 'none';
+  }
+  var btn = document.getElementById('btn-approve');
+  if (btn && !approved) {
+    btn.querySelector('[data-i18n]').textContent = lang === 'en' ? '✓ Approve' : '✓ 承認';
+  }
+  // Update chart labels
+  if (yoyChart) {
+    yoyChart.data.labels = lang === 'en' ? YOY_LABELS_EN : YOY_LABELS_JA;
+    yoyChart.data.datasets[0].label = lang === 'en' ? '% vs baseline' : 'ベースライン比 %';
+    yoyChart.update('none');
+  }
+  if (predChart) {
+    predChart.data.datasets[2].label = lang === 'en' ? 'Predicted' : '予測値';
+    predChart.data.datasets[3].label = lang === 'en' ? 'Actual' : '実測値';
+    predChart.update('none');
+  }
+  var h = parseInt(document.getElementById('time-slider').value, 10);
+  updatePhase(h);
+}
+
+/* ── Slider ────────────────────────────────────────────────────────── */
+
+document.getElementById('time-slider').addEventListener('input', function() {
+  var h = parseInt(this.value, 10);
+  document.getElementById('time-val').textContent = h;
+  updatePhase(h);
+  updateGauges(h);
+  updatePredChart(h);
+});
+
+/* ── Init ──────────────────────────────────────────────────────────── */
+
+document.addEventListener('DOMContentLoaded', function() {
+  initYoyChart();
+  initPredChart();
+  updatePhase(36);
+  updateGauges(36);
+  updatePredChart(36);
+  startCountdown();
+});
+
+// Hook into i18n.js lang change
+(function patchI18n() {
+  var origApply = window.ddcrI18n && window.ddcrI18n.applyLang;
+  if (!origApply) {
+    // i18n.js not loaded yet — defer
+    window.addEventListener('load', function() { patchI18n(); });
+    return;
+  }
+  window.ddcrI18n.applyLang = function(lang) {
+    origApply(lang);
+    updateLeadTimeTexts(lang);
+  };
+  // Also trigger once
+  var lang = document.documentElement.lang || 'ja';
+  updateLeadTimeTexts(lang);
+}());
+</script>
+<script src="../i18n.js"></script>
+</body>
+</html>
