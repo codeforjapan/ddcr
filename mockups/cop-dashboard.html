@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" data-page-title="cop.title">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DDCR — Common Operating Picture (Mockup)</title>
+<title>DDCR — Common Operating Picture（モックアップ）</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -244,119 +244,123 @@
 </head>
 <body>
 
-<div class="mockup-badge">MOCKUP</div>
+<div class="mockup-badge" data-i18n="mockup">MOCKUP</div>
 
 <div class="header">
   <div class="header-left">
-    <h1><span class="accent">DDCR</span> Common Operating Picture</h1>
-    <span class="badge">Drill Mode</span>
+    <h1><span class="accent">DDCR</span> <span data-i18n="cop.heading">Common Operating Picture</span></h1>
+    <span class="badge" data-i18n="cop.badge.drill">ドリルモード</span>
+  </div>
+  <div class="lang-switcher" role="group" aria-label="Language switcher">
+    <button data-set-lang="ja" aria-pressed="true">日本語</button>
+    <button data-set-lang="en" aria-pressed="false">EN</button>
   </div>
   <div class="meta">
-    <div class="live">LIVE</div>
-    <div>Updated: 2026-01-01 06:45 JST</div>
-    <div>Sources: 12 connected</div>
+    <div class="live" data-i18n="cop.live">ライブ</div>
+    <div data-i18n="cop.header.updated">更新: 2026-01-01 06:45 JST</div>
+    <div data-i18n="cop.header.sources">ソース: 12 接続中</div>
   </div>
 </div>
 
 <div class="main">
   <div class="stats-bar">
-    <div class="stat-card danger"><div class="value">34,127</div><div class="label">Evacuees (est.)</div></div>
-    <div class="stat-card info"><div class="value">247</div><div class="label">Shelters Open</div></div>
-    <div class="stat-card warn"><div class="value">23</div><div class="label">Supply Shortage</div></div>
-    <div class="stat-card conflict"><div class="value">8</div><div class="label">Data Conflicts</div></div>
-    <div class="stat-card ok"><div class="value">89%</div><div class="label">Coverage</div></div>
-    <div class="stat-card info"><div class="value">1,247</div><div class="label">Vulnerable</div></div>
+    <div class="stat-card danger"><div class="value">34,127</div><div class="label" data-i18n="cop.stat.evacuees">避難者数（推計）</div></div>
+    <div class="stat-card info"><div class="value">247</div><div class="label" data-i18n="cop.stat.shelters">避難所 開設数</div></div>
+    <div class="stat-card warn"><div class="value">23</div><div class="label" data-i18n="cop.stat.supply">物資不足</div></div>
+    <div class="stat-card conflict"><div class="value">8</div><div class="label" data-i18n="cop.stat.conflicts">データ競合</div></div>
+    <div class="stat-card ok"><div class="value">89%</div><div class="label" data-i18n="cop.stat.coverage">カバレッジ</div></div>
+    <div class="stat-card info"><div class="value">1,247</div><div class="label" data-i18n="cop.stat.vulnerable">要支援者</div></div>
   </div>
 
   <div class="map-area">
     <div class="map-controls">
-      <span class="layer-label">レイヤー:</span>
-      <button class="layer-btn active" id="btn-shelters">避難所</button>
-      <button class="layer-btn" id="btn-flood">浸水域</button>
-      <button class="layer-btn" id="btn-roads">通行不能道路</button>
-      <button class="layer-btn" id="btn-supply">物資拠点</button>
+      <span class="layer-label" data-i18n="cop.layer.label">レイヤー:</span>
+      <button class="layer-btn active" id="btn-shelters" data-i18n="cop.layer.shelters">避難所</button>
+      <button class="layer-btn" id="btn-flood" data-i18n="cop.layer.flood">浸水域</button>
+      <button class="layer-btn" id="btn-roads" data-i18n="cop.layer.roads">通行不能道路</button>
+      <button class="layer-btn" id="btn-supply" data-i18n="cop.layer.supply">物資拠点</button>
     </div>
     <div id="map"></div>
   </div>
 
   <div class="sidebar">
     <div class="sidebar-section">
-      <h3>Natural Language Query</h3>
+      <h3 data-i18n="cop.query.heading">自然言語クエリ</h3>
       <div class="nl-query">
-        <input type="text" placeholder="e.g. Which shelters need water most urgently?">
-        <button class="btn-primary">Query</button>
+        <input type="text" data-i18n-placeholder="cop.query.placeholder" placeholder="例: どの避難所で水が最も緊急に必要ですか？">
+        <button class="btn-primary" data-i18n="cop.query.btn">クエリ</button>
       </div>
     </div>
 
     <div class="sidebar-section">
-      <h3>COP Summary</h3>
+      <h3 data-i18n="cop.cop.heading">COP サマリー</h3>
       <div class="cop-summary">
-        <p><span class="tag known">Known</span> Data received from 219 of 247 shelters (89%). Estimated 34,127 evacuees.</p>
-        <p style="margin-top:6px;"><span class="tag unknown">Unknown</span> 28 shelters unreported. Yamakita/Hakone area — communication severed.</p>
-        <p style="margin-top:6px;"><span class="tag conflicting">Conflicts</span> 8 data conflicts detected. Most critical: Fujisawa-D Community Center.</p>
-        <div class="ai-note">This summary is AI-generated reference information. Verify confidence scores and sources before making decisions.</div>
+        <p><span class="tag known" data-i18n="cop.tag.known">既知</span><span data-i18n="cop.summary.p1"> 247か所中219か所の避難所からデータ受信（89%）。推計34,127名が避難中。</span></p>
+        <p style="margin-top:6px;"><span class="tag unknown" data-i18n="cop.tag.unknown">未確認</span><span data-i18n="cop.summary.p2"> 28か所未報告。山北・箱根エリア — 通信途絶。</span></p>
+        <p style="margin-top:6px;"><span class="tag conflicting" data-i18n="cop.tag.conflicting">競合</span><span data-i18n="cop.summary.p3"> データ競合8件検出。最重要: 藤沢D市民センター。</span></p>
+        <div class="ai-note" data-i18n="cop.ai.note">このサマリーはAI生成の参考情報です。意思決定前に信頼スコアと情報源を必ず確認してください。</div>
       </div>
     </div>
 
     <div class="sidebar-section">
-      <h3>Action Required</h3>
+      <h3 data-i18n="cop.alerts.heading">要対応</h3>
       <div class="alert-item critical">
-        <div class="alert-title">Over capacity: Sagamihara-C Gymnasium</div>
-        <div class="alert-detail">412 evacuees in 350-capacity shelter. Transfer needed.</div>
-        <div class="alert-time">06:45 — Source: Sagamihara Excel → AI normalized</div>
+        <div class="alert-title" data-i18n="cop.alert1.title">定員超過: 相模原C体育館</div>
+        <div class="alert-detail" data-i18n="cop.alert1.detail">350名定員に412名収容中。転送が必要。</div>
+        <div class="alert-time" data-i18n="cop.alert1.time">06:45 — 出典: 相模原Excel → AI正規化</div>
       </div>
       <div class="alert-item conflict">
-        <div class="alert-title">Data Conflict: Fujisawa-D Community Center</div>
-        <div class="alert-detail">JGSDF (203) vs City system (147). Gap: 56.</div>
-        <div class="alert-time">06:35 — <a href="conflict-view.html">View conflict details</a></div>
+        <div class="alert-title" data-i18n="cop.alert2.title">データ競合: 藤沢D市民センター</div>
+        <div class="alert-detail" data-i18n="cop.alert2.detail">陸自(203) vs 市システム(147)。差: 56。</div>
+        <div class="alert-time"><span data-i18n="cop.alert2.time">06:35 — </span><a href="conflict-view.html" data-i18n="cop.alert2.link">競合詳細を見る</a></div>
       </div>
       <div class="alert-item critical">
-        <div class="alert-title">Supply depleted: Odawara-G Shelter</div>
-        <div class="alert-detail">Water, food, blankets all depleted. NPO report (confidence: low)</div>
-        <div class="alert-time">06:30</div>
+        <div class="alert-title" data-i18n="cop.alert3.title">物資枯渇: 小田原G避難所</div>
+        <div class="alert-detail" data-i18n="cop.alert3.detail">水・食料・毛布すべて枯渇。NPO報告（信頼度: 低）</div>
+        <div class="alert-time" data-i18n="cop.alert3.time">06:30</div>
       </div>
       <div class="alert-item info">
-        <div class="alert-title">Communication lost: Yamakita area</div>
-        <div class="alert-detail">3 shelters unreported for 2+ hours. Satellite link recommended.</div>
-        <div class="alert-time">06:00</div>
+        <div class="alert-title" data-i18n="cop.alert4.title">通信途絶: 山北エリア</div>
+        <div class="alert-detail" data-i18n="cop.alert4.detail">3避難所が2時間以上未報告。衛星回線を推奨。</div>
+        <div class="alert-time" data-i18n="cop.alert4.time">06:00</div>
       </div>
     </div>
 
     <div class="sidebar-section">
-      <h3>データカバレッジ — 何がわかっていないか</h3>
+      <h3 data-i18n="cop.coverage.heading">データカバレッジ — 何がわかっていないか</h3>
       <div class="coverage-summary">
         <div class="coverage-bar-bg"><div class="coverage-bar-fill"></div></div>
-        <span class="coverage-pct">28 / 33 自治体</span>
+        <span class="coverage-pct" data-i18n="cop.coverage.count">28 / 33 自治体</span>
       </div>
       <div class="coverage-list">
-        <div class="coverage-group-label">報告済 (25)</div>
-        <div class="coverage-item"><span class="cov-name">横浜市</span><span class="cov-time">06:40 ✓</span></div>
-        <div class="coverage-item"><span class="cov-name">川崎市</span><span class="cov-time">06:30 ✓</span></div>
-        <div class="coverage-item"><span class="cov-name">相模原市</span><span class="cov-time">06:35 ✓</span></div>
-        <div class="coverage-item"><span class="cov-name">藤沢市</span><span class="cov-time">06:20 ✓</span></div>
-        <div class="coverage-item"><span class="cov-name">小田原市</span><span class="cov-time">05:50 ✓</span></div>
-        <div class="coverage-item" style="color: var(--color-sumi-500); font-size:11px; padding: 2px 0;">…他 20 自治体</div>
+        <div class="coverage-group-label" data-i18n="cop.coverage.reported.label">報告済 (25)</div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.yokohama">横浜市</span><span class="cov-time">06:40 ✓</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.kawasaki">川崎市</span><span class="cov-time">06:30 ✓</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.sagamihara">相模原市</span><span class="cov-time">06:35 ✓</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.fujisawa">藤沢市</span><span class="cov-time">06:20 ✓</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.odawara">小田原市</span><span class="cov-time">05:50 ✓</span></div>
+        <div class="coverage-item" style="color: var(--color-sumi-500); font-size:11px; padding: 2px 0;" data-i18n="cop.cov.more">…他 20 自治体</div>
 
-        <div class="coverage-group-label">一部報告 (3)</div>
-        <div class="coverage-item"><span class="cov-name">足柄上郡</span><span class="cov-partial">一部のみ 06:20</span></div>
-        <div class="coverage-item"><span class="cov-name">愛甲郡</span><span class="cov-partial">1/2 自治体 05:45</span></div>
-        <div class="coverage-item"><span class="cov-name">三浦郡</span><span class="cov-partial">遅延 04:00</span></div>
+        <div class="coverage-group-label" data-i18n="cop.coverage.partial.label">一部報告 (3)</div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.ashigara">足柄上郡</span><span class="cov-partial" data-i18n="cop.cov.ashigara.status">一部のみ 06:20</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.aiko">愛甲郡</span><span class="cov-partial" data-i18n="cop.cov.aiko.status">1/2 自治体 05:45</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.miura">三浦郡</span><span class="cov-partial" data-i18n="cop.cov.miura.status">遅延 04:00</span></div>
 
-        <div class="coverage-group-label">未報告 (5) — 要確認</div>
-        <div class="coverage-item"><span class="cov-name">山北町</span><span class="cov-badge">通信途絶</span></div>
-        <div class="coverage-item"><span class="cov-name">箱根町</span><span class="cov-badge">未報告</span></div>
-        <div class="coverage-item"><span class="cov-name">真鶴町</span><span class="cov-badge">未報告</span></div>
-        <div class="coverage-item"><span class="cov-name">湯河原町</span><span class="cov-badge">未報告</span></div>
-        <div class="coverage-item"><span class="cov-name">清川村</span><span class="cov-badge">未報告</span></div>
+        <div class="coverage-group-label" data-i18n="cop.coverage.missing.label">未報告 (5) — 要確認</div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.yamakita">山北町</span><span class="cov-badge" data-i18n="cop.cov.badge.severed">通信途絶</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.hakone">箱根町</span><span class="cov-badge" data-i18n="cop.cov.badge.missing">未報告</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.manazuru">真鶴町</span><span class="cov-badge" data-i18n="cop.cov.badge.missing">未報告</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.yugawara">湯河原町</span><span class="cov-badge" data-i18n="cop.cov.badge.missing">未報告</span></div>
+        <div class="coverage-item"><span class="cov-name" data-i18n="cop.cov.kiyokawa">清川村</span><span class="cov-badge" data-i18n="cop.cov.badge.missing">未報告</span></div>
       </div>
-      <div class="ai-note" style="margin-top:8px;">未報告自治体への確認手段: 衛星電話 / D-CERT 派遣 / ヘリ視察</div>
+      <div class="ai-note" style="margin-top:8px;" data-i18n="cop.coverage.ai.note">未報告自治体への確認手段: 衛星電話 / D-CERT 派遣 / ヘリ視察</div>
     </div>
   </div>
 </div>
 
 <div class="footer">
-  <div>DDCR v0.1 | Kanagawa Prefecture Disaster Drill | 12 data sources connected</div>
-  <div>All data points carry W3C PROV-O compliant provenance metadata</div>
+  <div data-i18n="cop.footer.left">DDCR v0.1 | 神奈川県防災訓練 | 12 データソース接続中</div>
+  <div data-i18n="cop.footer.right">すべてのデータポイントはW3C PROV-O準拠の来歴メタデータを保持</div>
 </div>
 
 <script src="https://cdn.geolonia.com/v1/embed?geolonia-api-key=YOUR-API-KEY"></script>
@@ -531,5 +535,6 @@ document.getElementById("btn-flood").addEventListener("click", () => toggleLayer
 document.getElementById("btn-roads").addEventListener("click", () => toggleLayer("roads"));
 document.getElementById("btn-supply").addEventListener("click", () => toggleLayer("supply"));
 </script>
+<script src="i18n.js"></script>
 </body>
 </html>
