@@ -18,19 +18,19 @@
 
 ### 共通状況認識（COP）ダッシュボード
 ![COP Dashboard](mockups/cop-dashboard-screenshot.png)
-[インタラクティブモックアップを開く](mockups/cop-dashboard.html)
+[インタラクティブモックアップを開く](https://codeforjapan.github.io/ddcr/mockups/cop-dashboard.html)
 
 Geolonia Maps上に神奈川県の避難所をリアルタイム表示。ステータス別に色分け（正常/警告/危機/矛盾）。
 
 ### データ矛盾解決ビュー
 ![Conflict View](mockups/conflict-view-screenshot.png)
-[インタラクティブモックアップを開く](mockups/conflict-view.html)
+[インタラクティブモックアップを開く](https://codeforjapan.github.io/ddcr/mockups/conflict-view.html)
 
 複数ソースからの矛盾するデータを並列表示し、AI分析（参考情報）と意思決定記録（Decision Recorder）で解決を支援。
 
 ### データフィード — マルチソース取り込み
 ![Data Feed](mockups/data-feed-screenshot.png)
-[インタラクティブモックアップを開く](mockups/data-feed.html)
+[インタラクティブモックアップを開く](https://codeforjapan.github.io/ddcr/mockups/data-feed.html)
 
 多様なソースからのリアルタイムデータ取り込み状況を表示:
 - **行政システム**（信頼度: 高）— CSV/DB自動取り込み
