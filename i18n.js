@@ -41,7 +41,6 @@
   const T = {
     ja: {
       // ── common ────────────────────────────────────────────────────
-      'mockup': 'MOCKUP',
       'vs': 'VS',
       'badge.normalized': '正規化済',
       'badge.pending': 'レビュー待ち',
@@ -295,7 +294,6 @@
 
     en: {
       // ── common ────────────────────────────────────────────────────
-      'mockup': 'MOCKUP',
       'vs': 'VS',
       'badge.normalized': 'Normalized',
       'badge.pending': 'Pending Review',

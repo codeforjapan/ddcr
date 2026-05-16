@@ -16,16 +16,19 @@
     .open-link { display: inline-block; margin-top: 0.75rem; font-size: 0.875rem; color: #0070f3; }
     footer { margin-top: 3rem; font-size: 0.8rem; color: #999; }
     footer a { color: #999; }
-    .lang-switcher { position: fixed; top: 10px; right: 12px; }
+    .page-header { display: flex; align-items: center; gap: 1rem; }
+    .page-header h1 { flex-grow: 1; }
+    .lang-switcher { flex-shrink: 0; display: flex; gap: 4px; }
   </style>
 </head>
 <body>
-  <div class="lang-switcher" role="group" aria-label="Language switcher">
-    <button data-set-lang="ja" aria-pressed="true">日本語</button>
-    <button data-set-lang="en" aria-pressed="false">EN</button>
+  <div class="page-header">
+    <h1 data-i18n="index.heading">DDCR — Disaster Data Commons for Resilience</h1>
+    <div class="lang-switcher" role="group" aria-label="Language switcher">
+      <button data-set-lang="ja" aria-pressed="true">日本語</button>
+      <button data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
   </div>
-
-  <h1 data-i18n="index.heading">DDCR — Disaster Data Commons for Resilience</h1>
   <p class="subtitle" data-i18n="index.subtitle">Open-source AI platform for disaster information integration</p>
 
   <div class="cards">
