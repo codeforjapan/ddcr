@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" data-page-title="index.title">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,32 +15,41 @@
     .card p { font-size: 0.875rem; color: #666; margin: 0; }
     .open-link { display: inline-block; margin-top: 0.75rem; font-size: 0.875rem; color: #0070f3; }
     footer { margin-top: 3rem; font-size: 0.8rem; color: #999; }
+    footer a { color: #999; }
+    .lang-switcher { position: fixed; top: 10px; right: 12px; }
   </style>
 </head>
 <body>
-  <h1>DDCR — Disaster Data Commons for Resilience</h1>
-  <p class="subtitle">Open-source AI platform for disaster information integration</p>
+  <div class="lang-switcher" role="group" aria-label="Language switcher">
+    <button data-set-lang="ja" aria-pressed="true">日本語</button>
+    <button data-set-lang="en" aria-pressed="false">EN</button>
+  </div>
+
+  <h1 data-i18n="index.heading">DDCR — Disaster Data Commons for Resilience</h1>
+  <p class="subtitle" data-i18n="index.subtitle">Open-source AI platform for disaster information integration</p>
 
   <div class="cards">
     <div class="card">
-      <h2>Common Operating Picture</h2>
-      <p>Unified situational awareness dashboard integrating data from multiple sources.</p>
-      <a class="open-link" href="mockups/cop-dashboard.html">Open mockup →</a>
+      <h2 data-i18n="index.card1.title">Common Operating Picture</h2>
+      <p data-i18n="index.card1.desc">Unified situational awareness dashboard integrating data from multiple sources.</p>
+      <a class="open-link" href="mockups/cop-dashboard.html" data-i18n="index.open-link">Open mockup →</a>
     </div>
     <div class="card">
-      <h2>Conflict Resolution View</h2>
-      <p>Visualize and resolve conflicting data from different vendor systems.</p>
-      <a class="open-link" href="mockups/conflict-view.html">Open mockup →</a>
+      <h2 data-i18n="index.card2.title">Conflict Resolution View</h2>
+      <p data-i18n="index.card2.desc">Visualize and resolve conflicting data from different vendor systems.</p>
+      <a class="open-link" href="mockups/conflict-view.html" data-i18n="index.open-link">Open mockup →</a>
     </div>
     <div class="card">
-      <h2>Multi-Source Data Feed</h2>
-      <p>Real-time ingestion and normalization from heterogeneous data sources.</p>
-      <a class="open-link" href="mockups/data-feed.html">Open mockup →</a>
+      <h2 data-i18n="index.card3.title">Multi-Source Data Feed</h2>
+      <p data-i18n="index.card3.desc">Real-time ingestion and normalization from heterogeneous data sources.</p>
+      <a class="open-link" href="mockups/data-feed.html" data-i18n="index.open-link">Open mockup →</a>
     </div>
   </div>
 
   <footer>
     <a href="https://github.com/codeforjapan/ddcr">GitHub</a> · Code for Japan · OSS
   </footer>
+
+  <script src="i18n.js"></script>
 </body>
 </html>

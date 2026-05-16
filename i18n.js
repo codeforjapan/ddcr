@@ -49,6 +49,18 @@
       'badge.unverified': '未検証',
       'badge.ai': 'AI処理済',
 
+      // ── index ────────────────────────────────────────────────────
+      'index.title': 'DDCR — 災害データコモンズ',
+      'index.heading': 'DDCR — 災害データコモンズ',
+      'index.subtitle': '災害情報統合のためのオープンソース AI 基盤',
+      'index.card1.title': '災害状況統合ダッシュボード',
+      'index.card1.desc': '複数ソースからのデータを統合した状況認識ダッシュボード。',
+      'index.card2.title': '情報整合性確認ビュー',
+      'index.card2.desc': '異なるベンダーシステム間の競合データを可視化・解消する。',
+      'index.card3.title': '複数ソースデータ取込',
+      'index.card3.desc': '異種データソースからのリアルタイム取込・正規化。',
+      'index.open-link': 'モックアップを開く →',
+
       // ── cop-dashboard ─────────────────────────────────────────────
       'cop.title': 'DDCR — Common Operating Picture（モックアップ）',
       'cop.heading': 'Common Operating Picture',
@@ -290,6 +302,18 @@
       'badge.conflict': 'Conflict',
       'badge.unverified': 'Unverified',
       'badge.ai': 'AI Processed',
+
+      // ── index ────────────────────────────────────────────────────
+      'index.title': 'DDCR — Disaster Data Commons for Resilience',
+      'index.heading': 'DDCR — Disaster Data Commons for Resilience',
+      'index.subtitle': 'Open-source AI platform for disaster information integration',
+      'index.card1.title': 'Common Operating Picture',
+      'index.card1.desc': 'Unified situational awareness dashboard integrating data from multiple sources.',
+      'index.card2.title': 'Conflict Resolution View',
+      'index.card2.desc': 'Visualize and resolve conflicting data from different vendor systems.',
+      'index.card3.title': 'Multi-Source Data Feed',
+      'index.card3.desc': 'Real-time ingestion and normalization from heterogeneous data sources.',
+      'index.open-link': 'Open mockup →',
 
       // ── cop-dashboard ─────────────────────────────────────────────
       'cop.title': 'DDCR — Common Operating Picture (Mockup)',
