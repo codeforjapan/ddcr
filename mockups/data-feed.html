@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" data-page-title="df.title">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DDCR — Data Feed (Mockup)</title>
+<title>DDCR — データフィード（モックアップ）</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -128,72 +128,76 @@
 </head>
 <body>
 
-<div class="mockup-badge">MOCKUP</div>
+<div class="mockup-badge" data-i18n="mockup">MOCKUP</div>
 
 <div class="header">
   <div style="display:flex;align-items:center;gap:12px;">
-    <h1><span class="accent">DDCR</span> Data Feed</h1>
+    <h1><span class="accent">DDCR</span> <span data-i18n="df.heading">Data Feed</span></h1>
+  </div>
+  <div class="lang-switcher" role="group" aria-label="Language switcher">
+    <button data-set-lang="ja" aria-pressed="true">日本語</button>
+    <button data-set-lang="en" aria-pressed="false">EN</button>
   </div>
   <div class="meta">
-    <a href="cop-dashboard.html">&larr; Back to COP</a>
-    <div>Ingesting from 12 sources</div>
-    <div>Last update: 2 sec ago</div>
+    <a href="cop-dashboard.html" data-i18n="df.back">← COP へ戻る</a>
+    <div data-i18n="df.meta.sources">12 ソース取込中</div>
+    <div data-i18n="df.meta.updated">最終更新: 2秒前</div>
   </div>
 </div>
 
 <div class="content">
   <div class="filters">
     <div class="stats-mini">
-      <div class="row"><span>Total reports (1h)</span><span class="val">342</span></div>
-      <div class="row"><span>Normalized</span><span class="val" style="color:var(--color-primitive-green-700);">289</span></div>
-      <div class="row"><span>Pending review</span><span class="val" style="color:var(--color-primitive-yellow-700);">38</span></div>
-      <div class="row"><span>Conflicts</span><span class="val" style="color:var(--color-primitive-purple-700);">8</span></div>
-      <div class="row"><span>Unverified</span><span class="val" style="color:var(--color-primitive-red-700);">7</span></div>
+      <div class="row"><span data-i18n="df.stats.total">総報告数（1時間）</span><span class="val">342</span></div>
+      <div class="row"><span data-i18n="df.stats.normalized">正規化済</span><span class="val" style="color:var(--color-primitive-green-700);">289</span></div>
+      <div class="row"><span data-i18n="df.stats.pending">レビュー待ち</span><span class="val" style="color:var(--color-primitive-yellow-700);">38</span></div>
+      <div class="row"><span data-i18n="df.stats.conflicts">競合</span><span class="val" style="color:var(--color-primitive-purple-700);">8</span></div>
+      <div class="row"><span data-i18n="df.stats.unverified">未検証</span><span class="val" style="color:var(--color-primitive-red-700);">7</span></div>
     </div>
 
     <div class="filter-group">
-      <h3>Source Type</h3>
-      <label><input type="checkbox" checked><span class="source-dot govt"></span> Government System</label>
-      <label><input type="checkbox" checked><span class="source-dot staff"></span> Staff Report</label>
-      <label><input type="checkbox" checked><span class="source-dot npo"></span> NPO / Partner Org</label>
-      <label><input type="checkbox" checked><span class="source-dot sns"></span> SNS / Public Info</label>
-      <label><input type="checkbox" checked><span class="source-dot ai"></span> AI Normalized</label>
+      <h3 data-i18n="df.filter.source">情報源タイプ</h3>
+      <label><input type="checkbox" checked><span class="source-dot govt"></span><span data-i18n="df.filter.govt"> 行政システム</span></label>
+      <label><input type="checkbox" checked><span class="source-dot staff"></span><span data-i18n="df.filter.staff"> スタッフ報告</span></label>
+      <label><input type="checkbox" checked><span class="source-dot npo"></span><span data-i18n="df.filter.npo"> NPO / パートナー組織</span></label>
+      <label><input type="checkbox" checked><span class="source-dot sns"></span><span data-i18n="df.filter.sns"> SNS / 公開情報</span></label>
+      <label><input type="checkbox" checked><span class="source-dot ai"></span><span data-i18n="df.filter.ai"> AI正規化</span></label>
     </div>
 
     <div class="filter-group">
-      <h3>Status</h3>
-      <label><input type="checkbox" checked> Normalized</label>
-      <label><input type="checkbox" checked> Pending Review</label>
-      <label><input type="checkbox" checked> Conflict Detected</label>
-      <label><input type="checkbox" checked> Unverified</label>
+      <h3 data-i18n="df.filter.status">ステータス</h3>
+      <label><input type="checkbox" checked><span data-i18n="df.filter.status.normalized"> 正規化済</span></label>
+      <label><input type="checkbox" checked><span data-i18n="df.filter.status.pending"> レビュー待ち</span></label>
+      <label><input type="checkbox" checked><span data-i18n="df.filter.status.conflict"> 競合検出</span></label>
+      <label><input type="checkbox" checked><span data-i18n="df.filter.status.unverified"> 未検証</span></label>
     </div>
 
     <div class="filter-group">
-      <h3>Confidence</h3>
-      <label><input type="checkbox" checked> High</label>
-      <label><input type="checkbox" checked> Medium</label>
-      <label><input type="checkbox" checked> Low</label>
+      <h3 data-i18n="df.filter.confidence">信頼度</h3>
+      <label><input type="checkbox" checked><span data-i18n="df.filter.conf.high"> 高</span></label>
+      <label><input type="checkbox" checked><span data-i18n="df.filter.conf.medium"> 中</span></label>
+      <label><input type="checkbox" checked><span data-i18n="df.filter.conf.low"> 低</span></label>
     </div>
   </div>
 
   <div class="feed">
     <div class="feed-header">
-      <h2>Live Data Stream</h2>
-      <div class="count">342 reports in last hour</div>
+      <h2 data-i18n="df.feed.heading">ライブデータストリーム</h2>
+      <div class="count" data-i18n="df.feed.count">342件（直近1時間）</div>
     </div>
 
     <!-- Government system — auto ingested -->
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-blue-900);"></div>
       <div class="feed-body">
-        <div class="feed-title">Yokohama-A Elementary: 147 evacuees</div>
-        <div class="feed-detail">Capacity: 300 | Supplies: adequate | Status: open</div>
-        <div class="feed-provenance">Yokohama City Disaster System → File adapter (CSV)</div>
+        <div class="feed-title" data-i18n="df.item1.title">横浜A小学校: 避難者147名</div>
+        <div class="feed-detail" data-i18n="df.item1.detail">定員: 300 | 物資: 充足 | 状態: 開設中</div>
+        <div class="feed-provenance" data-i18n="df.item1.prov">横浜市災害システム → ファイルアダプター（CSV）</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">06:30</div>
-        <div class="badge-sm normalized">Normalized</div>
-        <div class="confidence-label">Confidence: High</div>
+        <div class="badge-sm normalized" data-i18n="badge.normalized">正規化済</div>
+        <div class="confidence-label" data-i18n="df.item1.conf">信頼度: 高</div>
       </div>
     </div>
 
@@ -201,14 +205,14 @@
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-green-700);"></div>
       <div class="feed-body">
-        <div class="feed-title">Sagamihara-C Gymnasium: 412 evacuees (over capacity)</div>
-        <div class="feed-detail">Capacity: 350 | Water & food shortage | Request for transfer</div>
-        <div class="feed-provenance">Prefectural staff field report → Excel upload</div>
+        <div class="feed-title" data-i18n="df.item2.title">相模原C体育館: 412名（定員超過）</div>
+        <div class="feed-detail" data-i18n="df.item2.detail">定員: 350 | 水・食料不足 | 転送要請</div>
+        <div class="feed-provenance" data-i18n="df.item2.prov">県職員現地報告 → Excelアップロード</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">06:28</div>
-        <div class="badge-sm normalized">Normalized</div>
-        <div class="confidence-label">Confidence: Medium</div>
+        <div class="badge-sm normalized" data-i18n="badge.normalized">正規化済</div>
+        <div class="confidence-label" data-i18n="df.item2.conf">信頼度: 中</div>
       </div>
     </div>
 
@@ -216,15 +220,15 @@
     <div class="feed-item" style="background:var(--color-primitive-purple-50);">
       <div class="feed-dot" style="background:var(--color-primitive-green-700);"></div>
       <div class="feed-body">
-        <div class="feed-title" style="color:var(--color-primitive-purple-900);">Fujisawa-D Community Center: 203 evacuees ⚡ CONFLICT</div>
-        <div class="feed-detail">JGSDF 3rd Regiment field observation — conflicts with city system (147)</div>
-        <div class="feed-detail" style="color:var(--color-primitive-purple-700);">Gap: 56 evacuees (38%). AI analysis: time difference + unregistered arrivals likely.</div>
-        <div class="feed-provenance">JGSDF field report → Manual entry by liaison officer</div>
+        <div class="feed-title" style="color:var(--color-primitive-purple-900);" data-i18n="df.item3.title">藤沢D市民センター: 203名 ⚡ 競合</div>
+        <div class="feed-detail" data-i18n="df.item3.detail">陸自第3連隊 現地観察 — 市システム（147名）と競合</div>
+        <div class="feed-detail" style="color:var(--color-primitive-purple-700);" data-i18n="df.item3.detail2">差: 56名（38%）。AI分析: 時間差 + 未登録到着者の可能性。</div>
+        <div class="feed-provenance" data-i18n="df.item3.prov">陸自現地報告 → 連絡官による手動入力</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">06:30</div>
-        <div class="badge-sm conflict">Conflict</div>
-        <div class="confidence-label">Confidence: High</div>
+        <div class="badge-sm conflict" data-i18n="badge.conflict">競合</div>
+        <div class="confidence-label" data-i18n="df.item3.conf">信頼度: 高</div>
       </div>
     </div>
 
@@ -232,14 +236,14 @@
     <div class="feed-item" style="background:var(--color-primitive-purple-50);">
       <div class="feed-dot" style="background:var(--color-primitive-blue-900);"></div>
       <div class="feed-body">
-        <div class="feed-title" style="color:var(--color-primitive-purple-900);">Fujisawa-D Community Center: 147 evacuees ⚡ CONFLICT</div>
-        <div class="feed-detail">Registration-based count from city disaster system</div>
-        <div class="feed-provenance">Fujisawa City System → DB adapter (read-only)</div>
+        <div class="feed-title" style="color:var(--color-primitive-purple-900);" data-i18n="df.item4.title">藤沢D市民センター: 147名 ⚡ 競合</div>
+        <div class="feed-detail" data-i18n="df.item4.detail">市災害システムによる登録ベースカウント</div>
+        <div class="feed-provenance" data-i18n="df.item4.prov">藤沢市システム → DBアダプター（読み取り専用）</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">05:00</div>
-        <div class="badge-sm conflict">Conflict</div>
-        <div class="confidence-label">Confidence: Medium</div>
+        <div class="badge-sm conflict" data-i18n="badge.conflict">競合</div>
+        <div class="confidence-label" data-i18n="df.item4.conf">信頼度: 中</div>
       </div>
     </div>
 
@@ -247,14 +251,14 @@
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-orange-700);"></div>
       <div class="feed-body">
-        <div class="feed-title">Odawara-G Shelter: supply depletion alert</div>
-        <div class="feed-detail">Water, food, blankets all depleted. 320 evacuees, capacity 250.</div>
-        <div class="feed-provenance">Peace Winds Japan (NPO) → Structured report form</div>
+        <div class="feed-title" data-i18n="df.item5.title">小田原G避難所: 物資枯渇アラート</div>
+        <div class="feed-detail" data-i18n="df.item5.detail">水・食料・毛布すべて枯渇。避難者320名、定員250。</div>
+        <div class="feed-provenance" data-i18n="df.item5.prov">ピースウィンズ・ジャパン（NPO） → 構造化報告フォーム</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">06:15</div>
-        <div class="badge-sm pending">Pending Review</div>
-        <div class="confidence-label">Confidence: Low</div>
+        <div class="badge-sm pending" data-i18n="badge.pending">レビュー待ち</div>
+        <div class="confidence-label" data-i18n="df.item5.conf">信頼度: 低</div>
       </div>
     </div>
 
@@ -262,15 +266,15 @@
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-red-700);"></div>
       <div class="feed-body">
-        <div class="feed-title">SNS: "Water completely gone at Hiratsuka shelter"</div>
-        <div class="feed-detail">Source: X (Twitter) post by @resident_hiratsuka — 12 retweets</div>
-        <div class="feed-detail" style="color:var(--color-primitive-red-700);">⚠ Unverified — no matching shelter in system. AI attempting to geocode and match.</div>
-        <div class="feed-provenance">X API → AI extraction → Pending geocode match</div>
+        <div class="feed-title" data-i18n="df.item6.title">SNS: 「平塚の避難所で水が完全になくなった」</div>
+        <div class="feed-detail" data-i18n="df.item6.detail">出典: Xユーザー @resident_hiratsuka — リツイート12件</div>
+        <div class="feed-detail" style="color:var(--color-primitive-red-700);" data-i18n="df.item6.detail2">⚠ 未検証 — システム内に一致する避難所なし。AIがジオコーディングとマッチング処理中。</div>
+        <div class="feed-provenance" data-i18n="df.item6.prov">X API → AI抽出 → ジオコードマッチング待ち</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">06:12</div>
-        <div class="badge-sm unverified">Unverified</div>
-        <div class="confidence-label">Confidence: Low</div>
+        <div class="badge-sm unverified" data-i18n="badge.unverified">未検証</div>
+        <div class="confidence-label" data-i18n="df.item6.conf">信頼度: 低</div>
       </div>
     </div>
 
@@ -278,15 +282,15 @@
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-purple-700);"></div>
       <div class="feed-body">
-        <div class="feed-title">Kamakura-F Gymnasium: 178 evacuees (AI normalized from FAX)</div>
-        <div class="feed-detail">Original: handwritten FAX → OCR → schema mapping. Blanket shortage noted.</div>
-        <div class="feed-detail"><span class="badge-sm ai">AI Processed</span> Normalization confidence: 84%. Rule-based validation: passed.</div>
-        <div class="feed-provenance">Kamakura City FAX → OCR adapter → Semantic normalization pipeline v0.3</div>
+        <div class="feed-title" data-i18n="df.item7.title">鎌倉F体育館: 178名（FAXをAI正規化）</div>
+        <div class="feed-detail" data-i18n="df.item7.detail">原本: 手書きFAX → OCR → スキーママッピング。毛布不足を記録。</div>
+        <div class="feed-detail"><span class="badge-sm ai" data-i18n="badge.ai">AI処理済</span><span data-i18n="df.item7.detail2"> 正規化信頼度: 84%。ルールベース検証: 合格。</span></div>
+        <div class="feed-provenance" data-i18n="df.item7.prov">鎌倉市FAX → OCRアダプター → 意味正規化パイプライン v0.3</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">06:08</div>
-        <div class="badge-sm normalized">Normalized</div>
-        <div class="confidence-label">Confidence: Medium</div>
+        <div class="badge-sm normalized" data-i18n="badge.normalized">正規化済</div>
+        <div class="confidence-label" data-i18n="df.item7.conf">信頼度: 中</div>
       </div>
     </div>
 
@@ -294,14 +298,14 @@
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-green-700);"></div>
       <div class="feed-body">
-        <div class="feed-title">Kawasaki-H Elementary: 95 evacuees (DMAT patrol)</div>
-        <div class="feed-detail">Medical team patrol count. 3 persons requiring immediate care identified.</div>
-        <div class="feed-provenance">DMAT Team 7 → Structured report via tablet</div>
+        <div class="feed-title" data-i18n="df.item8.title">川崎H小学校: 95名（DMAT巡回）</div>
+        <div class="feed-detail" data-i18n="df.item8.detail">医療チーム巡回カウント。要緊急対応3名特定。</div>
+        <div class="feed-provenance" data-i18n="df.item8.prov">DMATチーム7 → タブレットによる構造化報告</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">06:00</div>
-        <div class="badge-sm normalized">Normalized</div>
-        <div class="confidence-label">Confidence: Medium</div>
+        <div class="badge-sm normalized" data-i18n="badge.normalized">正規化済</div>
+        <div class="confidence-label" data-i18n="df.item8.conf">信頼度: 中</div>
       </div>
     </div>
 
@@ -309,15 +313,15 @@
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-red-700);"></div>
       <div class="feed-body">
-        <div class="feed-title">SNS: "Elderly person collapsed at Chigasaki station area"</div>
-        <div class="feed-detail">Source: X post with photo — location estimated from image metadata</div>
-        <div class="feed-detail" style="color:var(--color-primitive-red-700);">⚠ Unverified — forwarded to nearest DMAT team for confirmation</div>
-        <div class="feed-provenance">X API → AI extraction + geocode → Forwarded to DMAT dispatch</div>
+        <div class="feed-title" data-i18n="df.item9.title">SNS: 「茅ヶ崎駅付近で高齢者が倒れている」</div>
+        <div class="feed-detail" data-i18n="df.item9.detail">出典: 写真付きXポスト — 画像メタデータから位置推定</div>
+        <div class="feed-detail" style="color:var(--color-primitive-red-700);" data-i18n="df.item9.detail2">⚠ 未検証 — 最寄りのDMATチームに転送済み、確認依頼中</div>
+        <div class="feed-provenance" data-i18n="df.item9.prov">X API → AI抽出 + ジオコード → DMAT派遣へ転送</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">05:55</div>
-        <div class="badge-sm unverified">Unverified</div>
-        <div class="confidence-label">Confidence: Low</div>
+        <div class="badge-sm unverified" data-i18n="badge.unverified">未検証</div>
+        <div class="confidence-label" data-i18n="df.item9.conf">信頼度: 低</div>
       </div>
     </div>
 
@@ -325,14 +329,14 @@
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-green-700);"></div>
       <div class="feed-body">
-        <div class="feed-title">Atsugi-E Elementary: 56 evacuees</div>
-        <div class="feed-detail">Shelter staff report via LINE Bot. Supplies adequate. 2 non-Japanese speakers need translation support.</div>
-        <div class="feed-provenance">LINE Bot → Structured message adapter</div>
+        <div class="feed-title" data-i18n="df.item10.title">厚木E小学校: 56名</div>
+        <div class="feed-detail" data-i18n="df.item10.detail">避難所スタッフがLINE Botで報告。物資充足。外国語対応ニーズ2名。</div>
+        <div class="feed-provenance" data-i18n="df.item10.prov">LINE Bot → 構造化メッセージアダプター</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">05:50</div>
-        <div class="badge-sm normalized">Normalized</div>
-        <div class="confidence-label">Confidence: Medium</div>
+        <div class="badge-sm normalized" data-i18n="badge.normalized">正規化済</div>
+        <div class="confidence-label" data-i18n="df.item10.conf">信頼度: 中</div>
       </div>
     </div>
 
@@ -340,19 +344,20 @@
     <div class="feed-item">
       <div class="feed-dot" style="background:var(--color-primitive-blue-900);"></div>
       <div class="feed-body">
-        <div class="feed-title">Bulk update: Yokohama City — 45 shelters</div>
-        <div class="feed-detail">Scheduled CSV export ingested. 45 shelter records updated. 2 new conflicts detected.</div>
-        <div class="feed-provenance">Yokohama City Disaster System → File adapter (scheduled, 30min interval)</div>
+        <div class="feed-title" data-i18n="df.item11.title">一括更新: 横浜市 — 45避難所</div>
+        <div class="feed-detail" data-i18n="df.item11.detail">スケジュールされたCSVエクスポートを取込。45件の避難所レコード更新。新たな競合2件検出。</div>
+        <div class="feed-provenance" data-i18n="df.item11.prov">横浜市災害システム → ファイルアダプター（スケジュール, 30分間隔）</div>
       </div>
       <div class="feed-right">
         <div class="feed-time">05:45</div>
-        <div class="badge-sm normalized">Normalized</div>
-        <div class="confidence-label">Confidence: High</div>
+        <div class="badge-sm normalized" data-i18n="badge.normalized">正規化済</div>
+        <div class="confidence-label" data-i18n="df.item11.conf">信頼度: 高</div>
       </div>
     </div>
 
   </div>
 </div>
 
+<script src="i18n.js"></script>
 </body>
 </html>

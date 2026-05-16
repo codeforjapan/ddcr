@@ -117,3 +117,46 @@ CSS Custom Properties として `global.css` で定義。主要な色:
 - 本文テキスト: sumi-900 on white = 18.5:1（WCAG AAA）
 - 補足テキスト: sumi-500 on white = 5.3:1（WCAG AA）
 - ステータスカラー: 各 Primitive-700/900 は白背景に対してWCAG AA以上
+
+## Internationalization (i18n)
+
+3つの mockup HTML は `mockups/i18n.js` を共有する vanilla JS i18n 機構を実装している。
+
+### 設計方針
+
+- **外部ライブラリ不使用**: CDN 依存なし、`i18n.js` 単体で完結
+- **デフォルト言語: 日本語（ja）**
+- 言語切替の優先順位: URL `?lang=` > `localStorage` > デフォルト (ja)
+- `<html lang>` 属性を動的更新（スクリーンリーダー対応）
+
+### 使用方法
+
+各 HTML の翻訳したい要素に `data-i18n` 属性を付与:
+
+```html
+<!-- テキストコンテンツ -->
+<h1 data-i18n="cop.heading">Common Operating Picture</h1>
+
+<!-- placeholder -->
+<input data-i18n-placeholder="cop.query.placeholder" placeholder="...">
+
+<!-- ページタイトル -->
+<html data-page-title="cop.title">
+```
+
+### 言語スイッチャー
+
+各ページの右上に配置:
+
+```html
+<div class="lang-switcher" role="group" aria-label="Language switcher">
+  <button data-set-lang="ja" aria-pressed="true">日本語</button>
+  <button data-set-lang="en" aria-pressed="false">EN</button>
+</div>
+```
+
+### 翻訳ガイドライン
+
+- 固有名詞・技術用語（NGSI-LD / DDCR / COP / W3C PROV-O 等）は両言語で原文保持
+- 自治体名: 横浜市 / Yokohama City 形式
+- タイムスタンプ・数値は翻訳対象外

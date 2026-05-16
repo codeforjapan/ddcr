@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" data-page-title="cv.title">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DDCR — Conflict Resolution View (Mockup)</title>
+<title>DDCR — 競合解消ビュー（モックアップ）</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -161,11 +161,15 @@
 </head>
 <body>
 
-<div class="mockup-badge">MOCKUP</div>
+<div class="mockup-badge" data-i18n="mockup">MOCKUP</div>
 
 <div class="header">
-  <h1><span class="accent">DDCR</span> Conflict Resolution</h1>
-  <a href="cop-dashboard.html">&larr; Back to COP Dashboard</a>
+  <h1><span class="accent">DDCR</span> <span data-i18n="cv.heading">Conflict Resolution</span></h1>
+  <div class="lang-switcher" role="group" aria-label="Language switcher">
+    <button data-set-lang="ja" aria-pressed="true">日本語</button>
+    <button data-set-lang="en" aria-pressed="false">EN</button>
+  </div>
+  <a href="cop-dashboard.html" data-i18n="cv.back">← COP ダッシュボードへ</a>
 </div>
 
 <div class="content">
@@ -173,63 +177,63 @@
   <div class="conflict-card">
     <div class="conflict-header">
       <div>
-        <div class="conflict-title">Evacuee Count Conflict — Fujisawa-D Community Center</div>
-        <div class="conflict-entity">ID: shelter:kanagawa-fujisawa-004</div>
+        <div class="conflict-title" data-i18n="cv.c1.title">避難者数競合 — 藤沢D市民センター</div>
+        <div class="conflict-entity" data-i18n="cv.c1.entity">ID: shelter:kanagawa-fujisawa-004</div>
       </div>
-      <div class="conflict-badge">Action Required</div>
+      <div class="conflict-badge" data-i18n="cv.c1.badge">要対応</div>
     </div>
 
     <div class="sources">
       <div class="source-card a">
-        <div class="source-label">Source A — JGSDF 3rd Regiment</div>
+        <div class="source-label" data-i18n="cv.src.a1.label">情報源 A — 陸上自衛隊 第3連隊</div>
         <div class="source-value">203</div>
         <div class="source-meta">
-          <div><span class="key">Method:</span> Field observation (visual count)</div>
-          <div><span class="key">Reported:</span> 2026-01-01 06:30 JST</div>
-          <div><span class="key">Confidence:</span> High</div>
+          <div><span class="key" data-i18n="cv.src.a1.method.key">手段:</span> <span data-i18n="cv.src.a1.method.val">現地観察（目視カウント）</span></div>
+          <div><span class="key" data-i18n="cv.src.a1.reported.key">報告:</span> <span data-i18n="cv.src.a1.reported.val">2026-01-01 06:30 JST</span></div>
+          <div><span class="key" data-i18n="cv.src.a1.confidence.key">信頼度:</span> <span data-i18n="cv.src.a1.confidence.val">高</span></div>
         </div>
         <div class="confidence-bar"><div class="fill high"></div></div>
       </div>
-      <div class="vs-divider">VS</div>
+      <div class="vs-divider" data-i18n="vs">VS</div>
       <div class="source-card b">
-        <div class="source-label">Source B — Fujisawa City Disaster System</div>
+        <div class="source-label" data-i18n="cv.src.b1.label">情報源 B — 藤沢市災害システム</div>
         <div class="source-value">147</div>
         <div class="source-meta">
-          <div><span class="key">Method:</span> System input (registration-based)</div>
-          <div><span class="key">Reported:</span> 2026-01-01 05:00 JST</div>
-          <div><span class="key">Confidence:</span> Medium</div>
+          <div><span class="key" data-i18n="cv.src.a1.method.key">手段:</span> <span data-i18n="cv.src.b1.method.val">システム入力（登録ベース）</span></div>
+          <div><span class="key" data-i18n="cv.src.a1.reported.key">報告:</span> <span data-i18n="cv.src.b1.reported.val">2026-01-01 05:00 JST</span></div>
+          <div><span class="key" data-i18n="cv.src.a1.confidence.key">信頼度:</span> <span data-i18n="cv.src.b1.confidence.val">中</span></div>
         </div>
         <div class="confidence-bar"><div class="fill medium"></div></div>
       </div>
     </div>
 
     <div class="analysis">
-      <h4>AI Analysis (Reference)</h4>
-      <p>Estimated cause of 56-person gap: Source A is a 06:30 on-site visual count; Source B is a 05:00 registration-based count. The 90-minute time gap suggests new evacuees arrived in the early morning. Additionally, Source B only counts registered evacuees — unregistered arrivals (self-evacuated, late-night) likely account for the difference.</p>
-      <p style="margin-top: 6px;">Recommendation: Adopt Source A (more recent field observation) as provisional value; request Fujisawa City to update registration count.</p>
-      <div class="ai-note">This analysis is AI-generated reference information. Final decisions must be made by authorized personnel.</div>
+      <h4 data-i18n="cv.analysis1.heading">AI分析（参考）</h4>
+      <p data-i18n="cv.analysis1.p1">56名の差の推定原因: 情報源Aは06:30現地目視カウント、情報源Bは05:00登録ベースカウント。90分の時間差により早朝に新たな避難者が到着した可能性があります。また情報源Bは登録済み避難者のみカウント — 未登録の到着者（自主避難、深夜到着）が差を生んでいる可能性があります。</p>
+      <p style="margin-top: 6px;" data-i18n="cv.analysis1.p2">推奨: より最近の現地観察である情報源A（203名）を暫定値として採用し、藤沢市に登録数の更新を要請。</p>
+      <div class="ai-note" data-i18n="cv.ai.note1">この分析はAI生成の参考情報です。最終判断は権限を持つ担当者が行ってください。</div>
     </div>
 
     <div class="decision-form">
-      <h4>Decision Recorder</h4>
-      <textarea placeholder="Record your rationale. e.g. 'Adopted 203 (JGSDF field count) as provisional — more recent. Requested Fujisawa City to re-verify registration data.'"></textarea>
-      <div class="note">This record is immutable. It creates an audit trail of who decided what, when, and based on which evidence.</div>
+      <h4 data-i18n="cv.decision1.heading">判断記録</h4>
+      <textarea data-i18n-placeholder="cv.decision1.placeholder" placeholder="判断根拠を記録してください。例:「より最近の現地カウントとして陸自の203名（暫定）を採用。藤沢市に登録データの再確認を要請。」"></textarea>
+      <div class="note" data-i18n="cv.decision1.note">この記録は変更不可です。誰がいつ、どの証拠に基づいて何を決定したかの監査証跡を作成します。</div>
     </div>
 
     <div class="action-buttons">
-      <button class="btn btn-green">Adopt Source A (203)</button>
-      <button class="btn btn-yellow">Adopt Source B (147)</button>
-      <button class="btn btn-red">Escalate</button>
-      <button class="btn btn-outline">Hold (show both)</button>
+      <button class="btn btn-green" data-i18n="cv.btn1.adopt.a">情報源 A を採用 (203)</button>
+      <button class="btn btn-yellow" data-i18n="cv.btn1.adopt.b">情報源 B を採用 (147)</button>
+      <button class="btn btn-red" data-i18n="cv.btn1.escalate">エスカレーション</button>
+      <button class="btn btn-outline" data-i18n="cv.btn1.hold">保留（両方表示）</button>
     </div>
 
     <div class="timeline">
-      <h3>Conflict Detection Timeline</h3>
-      <div class="timeline-item"><div class="time">05:00</div><div class="event"><span class="source">Fujisawa City System</span> reported 147 (registration-based)</div></div>
-      <div class="timeline-item"><div class="time">06:30</div><div class="event"><span class="source">JGSDF 3rd Regiment</span> reported 203 (field visual count)</div></div>
-      <div class="timeline-item"><div class="time">06:35</div><div class="event"><span class="source">DDCR Conflict Detector</span> auto-detected conflict. Gap: 56 (38%)</div></div>
-      <div class="timeline-item"><div class="time">06:35</div><div class="event"><span class="source">DDCR AI Analysis</span> generated probable cause and recommendation</div></div>
-      <div class="timeline-item"><div class="time">—</div><div class="event" style="color:var(--color-primitive-yellow-700);">Awaiting decision</div></div>
+      <h3 data-i18n="cv.timeline1.heading">競合検出タイムライン</h3>
+      <div class="timeline-item"><div class="time">05:00</div><div class="event" data-i18n="cv.tl1.e1">藤沢市システムが147名を報告（登録ベース）</div></div>
+      <div class="timeline-item"><div class="time">06:30</div><div class="event" data-i18n="cv.tl1.e2">陸自第3連隊が203名を報告（現地目視カウント）</div></div>
+      <div class="timeline-item"><div class="time">06:35</div><div class="event" data-i18n="cv.tl1.e3">DDCR競合検出器が競合を自動検出。差: 56名（38%）</div></div>
+      <div class="timeline-item"><div class="time">06:35</div><div class="event" data-i18n="cv.tl1.e4">DDCR AI分析が推定原因と推奨を生成</div></div>
+      <div class="timeline-item"><div class="time">—</div><div class="event" style="color:var(--color-primitive-yellow-700);" data-i18n="cv.tl1.e5">判断待ち</div></div>
     </div>
   </div>
 
@@ -237,49 +241,50 @@
   <div class="conflict-card">
     <div class="conflict-header">
       <div>
-        <div class="conflict-title">Evacuee Count Conflict — Kawasaki-H Elementary</div>
-        <div class="conflict-entity">ID: shelter:kanagawa-kawasaki-008</div>
+        <div class="conflict-title" data-i18n="cv.c2.title">避難者数競合 — 川崎H小学校</div>
+        <div class="conflict-entity" data-i18n="cv.c2.entity">ID: shelter:kanagawa-kawasaki-008</div>
       </div>
-      <div class="conflict-badge">Review Needed</div>
+      <div class="conflict-badge" data-i18n="cv.c2.badge">要確認</div>
     </div>
 
     <div class="sources">
       <div class="source-card a">
-        <div class="source-label">Source A — DMAT Patrol Team</div>
+        <div class="source-label" data-i18n="cv.src.a2.label">情報源 A — DMATチーム</div>
         <div class="source-value">95</div>
         <div class="source-meta">
-          <div><span class="key">Method:</span> Patrol visit</div>
-          <div><span class="key">Reported:</span> 06:00 JST</div>
-          <div><span class="key">Confidence:</span> Medium</div>
+          <div><span class="key" data-i18n="cv.src.a1.method.key">手段:</span> <span data-i18n="cv.src.a2.method.val">巡回訪問</span></div>
+          <div><span class="key" data-i18n="cv.src.a1.reported.key">報告:</span> <span data-i18n="cv.src.a2.reported.val">06:00 JST</span></div>
+          <div><span class="key" data-i18n="cv.src.a1.confidence.key">信頼度:</span> <span data-i18n="cv.src.a2.confidence.val">中</span></div>
         </div>
         <div class="confidence-bar"><div class="fill medium"></div></div>
       </div>
-      <div class="vs-divider">VS</div>
+      <div class="vs-divider" data-i18n="vs">VS</div>
       <div class="source-card b">
-        <div class="source-label">Source B — Kawasaki City Tally System</div>
+        <div class="source-label" data-i18n="cv.src.b2.label">情報源 B — 川崎市集計システム</div>
         <div class="source-value">132</div>
         <div class="source-meta">
-          <div><span class="key">Method:</span> Overnight tally (paper → Excel)</div>
-          <div><span class="key">Reported:</span> 04:30 JST</div>
-          <div><span class="key">Confidence:</span> Low</div>
+          <div><span class="key" data-i18n="cv.src.a1.method.key">手段:</span> <span data-i18n="cv.src.b2.method.val">深夜集計（紙 → Excel）</span></div>
+          <div><span class="key" data-i18n="cv.src.a1.reported.key">報告:</span> <span data-i18n="cv.src.b2.reported.val">04:30 JST</span></div>
+          <div><span class="key" data-i18n="cv.src.a1.confidence.key">信頼度:</span> <span data-i18n="cv.src.b2.confidence.val">低</span></div>
         </div>
         <div class="confidence-bar"><div class="fill low"></div></div>
       </div>
     </div>
 
     <div class="analysis">
-      <h4>AI Analysis (Reference)</h4>
-      <p>Gap: 37. Source B is an overnight paper tally transcribed to Excel — transcription errors or unreflected departures are likely. DMAT patrol is a direct medical team observation, but unclear if all floors were checked.</p>
-      <div class="ai-note">AI-generated reference. Final decisions must be made by authorized personnel.</div>
+      <h4 data-i18n="cv.analysis2.heading">AI分析（参考）</h4>
+      <p data-i18n="cv.analysis2.p1">差: 37名。情報源BはExcelに転記された深夜の紙集計 — 転記ミスや未反映の退去が考えられます。DMATの巡回は医療チームによる直接観察ですが、全フロアを確認したかは不明。</p>
+      <div class="ai-note" data-i18n="cv.ai.note2">AI生成参考情報。最終判断は権限を持つ担当者が行ってください。</div>
     </div>
 
     <div class="action-buttons">
-      <button class="btn btn-green">Adopt Source A (95)</button>
-      <button class="btn btn-yellow">Adopt Source B (132)</button>
-      <button class="btn btn-outline">Hold</button>
+      <button class="btn btn-green" data-i18n="cv.btn2.adopt.a">情報源 A を採用 (95)</button>
+      <button class="btn btn-yellow" data-i18n="cv.btn2.adopt.b">情報源 B を採用 (132)</button>
+      <button class="btn btn-outline" data-i18n="cv.btn2.hold">保留</button>
     </div>
   </div>
 </div>
 
+<script src="i18n.js"></script>
 </body>
 </html>
