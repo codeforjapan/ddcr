@@ -18,15 +18,15 @@ When disasters strike, fragmented information systems create a "dark 72 hours" w
 
 ### Common Operating Picture Dashboard
 ![COP Dashboard](mockups/cop-dashboard-screenshot.png)
-[Open interactive mockup](mockups/cop-dashboard.html)
+[Open interactive mockup](https://codeforjapan.github.io/ddcr/mockups/cop-dashboard.html)
 
 ### Conflict Resolution View
 ![Conflict View](mockups/conflict-view-screenshot.png)
-[Open interactive mockup](mockups/conflict-view.html)
+[Open interactive mockup](https://codeforjapan.github.io/ddcr/mockups/conflict-view.html)
 
 ### Data Feed — Multi-Source Ingestion
 ![Data Feed](mockups/data-feed-screenshot.png)
-[Open interactive mockup](mockups/data-feed.html)
+[Open interactive mockup](https://codeforjapan.github.io/ddcr/mockups/data-feed.html)
 
 Shows real-time data flowing from diverse sources with different confidence levels:
 - **Government Systems** (high confidence) — automated CSV/DB ingestion
